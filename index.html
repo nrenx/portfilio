@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Website</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Black Landing Screen with Glowing Effect -->
+    <div class="landing-screen" id="landing">
+        <div class="background-effect"></div>
+        <div class="message-container">
+            <div class="message">Hello</div>
+            <div class="message">నమస్కారం</div> <!-- Telugu -->
+            <div class="message">नमस्ते</div> <!-- Hindi -->
+            <div class="message">வணக்கம்</div> <!-- Tamil -->
+            <div class="message">ನಮಸ್ಕಾರ</div> <!-- Kannada -->
+            <div class="message">നമസ്കാരം</div> <!-- Malayalam -->
+            <div class="message">નમસ્તે</div> <!-- Gujarati -->
+            <div class="message">ନମସ୍କାର</div> <!-- Odia -->
+            <div class="message">السلام علیکم</div> <!-- Urdu -->
+            <div class="message">こんにちは</div> <!-- Japanese -->
+            <div class="message">안녕하세요</div> <!-- Korean -->
+            <div class="message">Здравствуйте</div> <!-- Russian -->
+            <div class="message">Vanakkam</div> <!-- Sri Lankan Tamil -->
+        </div>
+    </div>
+    
+    <div class="cursor-dot"></div>
+    
+    <!-- New Modern Navbar -->
+    <header class="navbar-header">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <svg viewBox="0 0 100 100" class="logo-svg">
+                    <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="6">
+                        <!-- left line -->
+                        <path d="M 21 40 V 59">
+                            <animateTransform attributeName="transform" attributeType="XML" type="rotate" values="0 21 59; 180 21 59" dur="2s" repeatCount="indefinite" />
+                        </path>
+                        <!-- right line -->
+                        <path d="M 79 40 V 59">
+                            <animateTransform attributeName="transform" attributeType="XML" type="rotate" values="0 79 59; -180 79 59" dur="2s" repeatCount="indefinite" />
+                        </path>
+                        <!-- top line -->
+                        <path d="M 50 21 V 40">
+                            <animate attributeName="d" values="M 50 21 V 40; M 50 59 V 40" dur="2s" repeatCount="indefinite" />
+                        </path>
+                        <!-- btm line -->
+                        <path d="M 50 60 V 79">
+                            <animate attributeName="d" values="M 50 60 V 79; M 50 98 V 79" dur="2s" repeatCount="indefinite" />
+                        </path>
+                        <!-- top box -->
+                        <path d="M 50 21 L 79 40 L 50 60 L 21 40 Z">
+                            <animate attributeName="stroke" values="rgba(0,0,0,1); rgba(100,100,100,0)" dur="2s" repeatCount="indefinite" />
+                        </path>
+                        <!-- mid box -->
+                        <path d="M 50 40 L 79 59 L 50 79 L 21 59 Z" />
+                        <!-- btm box -->
+                        <path d="M 50 59 L 79 78 L 50 98 L 21 78 Z">
+                            <animate attributeName="stroke" values="rgba(100,100,100,0); rgba(0,0,0,1)" dur="2s" repeatCount="indefinite" />
+                        </path>
+                        <animateTransform attributeName="transform" attributeType="XML" type="translate" values="0 0; 0 -19" dur="2s" repeatCount="indefinite" />
+                    </g>
+                </svg>
+                <span class="navbar-name">Narendra Chowdary</span>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <nav class="desktop-nav">
+                <button data-section="home" class="nav-link active">home</button>
+                <button data-section="about" class="nav-link">about</button>
+                <button data-section="projects" class="nav-link">projects</button>
+                <button data-section="experience" class="nav-link">experience</button>
+                <button data-section="contact" class="nav-link">contact</button>
+            </nav>
+
+            <div class="navbar-actions">
+                <!-- Theme toggle - Keep existing toggle -->
+                <div class="switch">
+                    <input type="checkbox" id="toggle">
+                    <label for="toggle">
+                        <i class="bulb">
+                            <span class="bulb-center"></span>
+                            <span class="filament-1"></span>
+                            <span class="filament-2"></span>
+                            <span class="reflections">
+                                <span></span>
+                            </span>
+                            <span class="sparks">
+                                <i class="spark1"></i>
+                                <i class="spark2"></i>
+                                <i class="spark3"></i>
+                                <i class="spark4"></i>
+                            </span>
+                        </i>    
+                    </label>
+                </div>
+
+                <!-- Mobile menu button -->
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars menu-icon"></i>
+                    <i class="fas fa-times close-icon hidden"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-nav">
+        <nav>
+            <button data-section="home" class="nav-link active">home</button>
+            <button data-section="about" class="nav-link">about</button>
+            <button data-section="projects" class="nav-link">projects</button>
+            <button data-section="experience" class="nav-link">experience</button>
+            <button data-section="contact" class="nav-link">contact</button>
+        </nav>
+    </div>
+
+    <!-- Main content -->
+    <div class="introduction" id="home">
+        <div class="text-container">
+            <div class="online" style="color: green; font-size: small; margin-bottom: 0; padding-bottom: 0;">
+                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: green; margin-right: 5px;"></span>
+                Available for work
+            </div>
+            <h1 style="font-size: 3em; margin-bottom: 0; margin-top: 10px;">Hi, I'm Narendra <span style="font-size: 1em;">👋</span></h1>
+            <div class="bio-container">
+                <h2>Software Engineer | Product Enthusiast | Content Creator</h2>
+                <p>I craft interactive and engaging projects that bring ideas to life. Passionate about building great products and creating compelling content.</p>
+            </div>
+            <div class="button-container">
+                <button class="button get-in-touch">Get in Touch</button>
+                <button class="button view-projects">View Projects</button>
+            </div>
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="image-container">
+            <div class="morph-container">
+                <img src="assets/images/Finding joy in the simplicity of the sea ............beach bridge ocean smile sunny monument collage sunset sunrise travelphotography travel.jpg" 
+                    alt="Florida Scrub Jay" 
+                    class="background-image">
+                <img src="assets/images/Finding paradise wherever the waves take me. . . . . . . . . . . . . . . .beachbound beachlife beach beachdreaming ocean paradise wavesfordays explore rainyday shorelineadventures seasideescape beach.jpg"
+                    alt="Finding paradise wherever the waves take me"
+                    class="background-image second-image">
+            </div>
+        </div>
+    </div>
+
+    <!-- Updated section structure with proper containers -->
+    <section id="about">
+        <div class="section-container">
+            <h2>About Section</h2>
+            <div class="about-content">
+                <!-- Your about content will go here -->
+                <p>This is the about section with improved spacing and structure.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="projects">
+        <div class="section-container">
+            <h2>Projects Section</h2>
+            <div class="projects-content">
+                <!-- Your projects content will go here -->
+                <p>This is the projects section with improved spacing and structure.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="experience">
+        <div class="section-container">
+            <h2>Experience Section</h2>
+            <div class="experience-content">
+                <!-- Your experience content will go here -->
+                <p>This is the experience section with improved spacing and structure.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="contact">
+        <div class="section-container">
+            <h2>Contact Section</h2>
+            <div class="contact-content">
+                <!-- Your contact content will go here -->
+                <p>This is the contact section with improved spacing and structure.</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="javascript.js"></script>
+</body>
+</html>
