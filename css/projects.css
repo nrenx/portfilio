@@ -1,0 +1,14 @@
+/* Projects section specific styles */
+#projects {
+  /* Add any specific projects section styles here */
+}
+
+#projects .projects-content {
+  /* Specific styles for projects content */
+}
+
+@media (max-width: 768px) {
+  #projects .projects-content {
+    /* Mobile specific projects content styles */
+  }
+}

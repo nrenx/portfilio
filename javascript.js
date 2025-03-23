@@ -21,21 +21,35 @@ document.addEventListener("DOMContentLoaded", function () {
       navbarHeader.classList.remove("scrolled");
     }
     
-    // Update active section based on scroll position with improved detection
+    // Update active section based on scroll position with improved mobile detection
     const sections = ["home", "about", "projects", "experience", "contact"];
     
-    // First, get the navbar height to account for offset
+    // Get the navbar height to account for offset
     const navbarHeight = document.querySelector('.navbar-header').offsetHeight;
+    const isMobile = window.innerWidth <= 768;
+    
+    // Additional offset for mobile devices
+    const viewportOffset = isMobile ? navbarHeight + 20 : navbarHeight + 50;
     
     // Find which section is currently in view
     for (const section of sections) {
       const element = document.getElementById(section);
       if (element) {
         const rect = element.getBoundingClientRect();
-        // Consider a section in view when its top is near the navbar bottom
-        if (rect.top <= navbarHeight + 50 && rect.bottom > navbarHeight) {
-          setActiveSection(section);
-          break;
+        
+        // Mobile devices need different calculation due to different viewport sizes
+        if (isMobile) {
+          // On mobile, consider a section in view when it occupies significant portion of screen
+          if (rect.top <= viewportOffset && rect.bottom > viewportOffset / 2) {
+            setActiveSection(section);
+            break;
+          }
+        } else {
+          // Desktop calculation (unchanged)
+          if (rect.top <= viewportOffset && rect.bottom > navbarHeight) {
+            setActiveSection(section);
+            break;
+          }
         }
       }
     }
@@ -55,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Scroll to section with improved offset calculation
+  // Improved scroll to section for mobile devices
   function scrollToSection(sectionId) {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -64,16 +78,28 @@ document.addEventListener("DOMContentLoaded", function () {
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
       
+      // Add additional offset for mobile
+      const isMobile = window.innerWidth <= 768;
+      const mobileOffset = isMobile ? 10 : 0; // Extra 10px offset on mobile
+      
       window.scrollTo({
-        top: offsetPosition,
+        top: offsetPosition - mobileOffset,
         behavior: "smooth"
       });
-    }
-    setActiveSection(sectionId);
-    
-    // Close mobile menu if open
-    if (mobileNav.classList.contains("open")) {
-      toggleMobileMenu();
+      
+      // For mobile, add a slight delay before setting active to ensure scrolling is complete
+      if (isMobile) {
+        setTimeout(() => {
+          setActiveSection(sectionId);
+        }, 300);
+      } else {
+        setActiveSection(sectionId);
+      }
+      
+      // Close mobile menu if open
+      if (mobileNav.classList.contains("open")) {
+        toggleMobileMenu();
+      }
     }
   }
 
@@ -338,6 +364,96 @@ document.addEventListener("DOMContentLoaded", function () {
       }, 800);
     }, 1500);
   }
+
+  // Function to check if an element is in the viewport
+  function isInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    return (
+      rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8 &&
+      rect.bottom >= 0
+    );
+  }
+
+  // Add scroll event listener for contact section
+  function handleContactSectionVisibility() {
+    const contactSection = document.getElementById('contact');
+    if (contactSection && isInViewport(contactSection)) {
+      contactSection.classList.add('in-view');
+    }
+  }
+
+  // Initialize contact section visibility
+  handleContactSectionVisibility();
+  
+  // Add event listener for scroll to check contact section visibility
+  window.addEventListener('scroll', handleContactSectionVisibility);
+  
+  // Handle resume button click
+  const resumeButton = document.querySelector('.resume-button');
+  if (resumeButton) {
+    resumeButton.addEventListener('click', function() {
+      // Change this to the actual resume download URL
+      window.open('assets/resume.pdf', '_blank');
+    });
+  }
+
+  // Add mobile device detection and handling
+  function isMobileDevice() {
+    return (window.innerWidth <= 768) || 
+           (navigator.maxTouchPoints > 0) || 
+           (navigator.msMaxTouchPoints > 0);
+  }
+  
+  // Adjust landing animation for mobile
+  function adjustForMobileDevice() {
+    if (isMobileDevice()) {
+      // Adjust particle count for better performance on mobile
+      if (particleAnimation) {
+        particleAnimation.destroy();
+        particleAnimation = new ParticleAnimation({
+          particleCount: 30, // Reduced for mobile
+          particleColor: "rgba(255, 255, 255, 0.5)",
+          backgroundColor: "transparent",
+          particleSize: { min: 0.1, max: 1.5 },
+          particleSpeed: { min: -0.3, max: 0.3 }
+        });
+        particleAnimation.start();
+      }
+      
+      // Reduce or disable cursor dot on mobile
+      const cursorDot = document.querySelector('.cursor-dot');
+      if (cursorDot) {
+        cursorDot.style.display = 'none';
+      }
+    }
+  }
+  
+  // Call adjustments after initialization
+  window.addEventListener('load', adjustForMobileDevice);
+  window.addEventListener('resize', adjustForMobileDevice);
+  
+  // Add a function to fix any viewport issues on page load and orientation change
+  function fixViewportIssues() {
+    // Force a re-layout to fix any positioning issues
+    document.body.style.display = 'none';
+    document.body.offsetHeight; // Force a reflow
+    document.body.style.display = '';
+    
+    // Update active section
+    handleScroll();
+    
+    // Fix content positioning after resize/orientation change
+    setTimeout(() => {
+      const activeElement = document.querySelector('.nav-link.active');
+      if (activeElement && activeElement.dataset.section) {
+        scrollToSection(activeElement.dataset.section);
+      }
+    }, 200);
+  }
+
+  // Call on orientation change and after page load
+  window.addEventListener('orientationchange', fixViewportIssues);
+  window.addEventListener('load', () => setTimeout(fixViewportIssues, 500));
 });
 
 // Particle Animation Class

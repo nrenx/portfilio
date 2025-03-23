@@ -2,7 +2,15 @@
 <html>
 <head>
   <title>My Website</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
   <link rel="stylesheet" href="style.css">
+  <!-- Add new section-specific CSS files -->
+  <link rel="stylesheet" href="css/sections.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/about.css">
+  <link rel="stylesheet" href="css/projects.css">
+  <link rel="stylesheet" href="css/experience.css">
+  <link rel="stylesheet" href="css/contact.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -184,10 +192,22 @@
     
     <section id="contact">
         <div class="section-container">
-            <h2>Contact Section</h2>
             <div class="contact-content">
-                <!-- Your contact content will go here -->
-                <p>This is the contact section with improved spacing and structure.</p>
+                <div class="contact-top">
+                    <h1>GOT A VISION? LET'S BRING IT TO LIFE!</h1>
+                    <p>I'm enthusiastic about collaborating on innovative projects. Let's connect and explore how we can bring your vision to life!</p>
+                </div>
+                <div class="contact-bottom">
+                    <div class="content-wrapper">
+                        <a href="mailto:your-email@example.com" class="email-link">your-email@example.com</a>
+                        <div class="social-icons">
+                            <a href="#" class="social-icon linkedin" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="social-icon github" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+                            <a href="#" class="social-icon twitter" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+                        </div>
+                        <button class="resume-button">Download Resume</button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

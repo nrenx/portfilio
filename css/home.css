@@ -1,0 +1,193 @@
+/* Introduction styles */
+.introduction {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  min-height: calc(100vh - 80px); /* Adjust to account for navbar height */
+  padding-top: 0; /* Remove top padding */
+  padding-bottom: 100px; /* Add padding at bottom for better separation */
+  box-sizing: border-box; /* Include padding in height calculation */
+}
+
+.image-container {
+  width: 40%;
+  margin-left: 20px;
+}
+
+.text-container {
+  width: 55%;
+  margin-right: 20px;
+  padding-left: 20px;
+}
+
+/* Morph container styles */
+.morph-container {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 4px solid #2d2e32;
+  border-radius: 60% 40% 30% 70%/60% 30% 70% 40%;
+  animation: morph 8s ease-in-out infinite;
+  transition: all 1s ease-in-out;
+  margin: 0 auto;
+}
+
+.morph-container img {
+  width: 100%;
+  height: auto;
+  transition: opacity 1s ease-in-out;
+}
+
+.background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.second-image {
+  opacity: 0;
+  z-index: 2;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.morph-container:hover .background-image {
+  opacity: 0;
+}
+
+.morph-container:hover .second-image {
+  opacity: 1;
+}
+
+@keyframes morph {
+  0%,
+  100% {
+    border-radius: 60% 40% 30% 70%/60% 30% 70% 40%;
+  }
+
+  25% {
+    border-radius: 40% 60% 70% 30%/40% 70% 30% 60%;
+  }
+
+  50% {
+    border-radius: 30% 60% 70% 40%/50% 60% 30% 40%;
+  }
+
+  75% {
+    border-radius: 55% 45% 40% 60%/45% 30% 60% 55%;
+  }
+}
+
+/* Button Styles */
+.button-container {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.button {
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.2s ease-in-out;
+  border: none;
+}
+
+.button:hover {
+  transform: scale(1.05);
+}
+
+.get-in-touch {
+  background-color: #2d2e32;
+  color: #fff;
+}
+
+.view-projects {
+  background-color: transparent;
+  color: #2d2e32;
+  border: 1px solid #2d2e32;
+}
+
+/* Social Icons Styles */
+.social-icons {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+  justify-content: flex-start; /* Align icons to the left */
+}
+
+.social-icon {
+  font-size: 24px;
+  color: #555;
+  transition: color 0.3s ease;
+}
+
+.social-icon:hover {
+  color: #007bff;
+}
+
+/* Mobile responsiveness for introduction section */
+@media screen and (max-width: 768px) {
+  .introduction {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .introduction .image-container {
+    order: 1; /* Makes image appear first */
+    margin-bottom: 1.5rem; /* Adds space between image and text */
+    width: 100%;
+  }
+  
+  .introduction .text-container {
+    order: 2; /* Text appears second */
+    width: 100%;
+  }
+  
+  /* Adjust image size for mobile */
+  .morph-container {
+    width: 80%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  /* Center buttons on mobile */
+  .button-container {
+    justify-content: center;
+  }
+
+  /* Center social icons on mobile */
+  .social-icons {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .introduction h1 {
+    font-size: 1.8em !important;
+  }
+
+  .introduction h2 {
+    font-size: 1em;
+  }
+
+  .button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+  
+  .morph-container {
+    width: 180px;
+    height: 180px;
+  }
+}

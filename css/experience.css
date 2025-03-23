@@ -1,0 +1,14 @@
+/* Experience section specific styles */
+#experience {
+  /* Add any specific experience section styles here */
+}
+
+#experience .experience-content {
+  /* Specific styles for experience content */
+}
+
+@media (max-width: 768px) {
+  #experience .experience-content {
+    /* Mobile specific experience content styles */
+  }
+}

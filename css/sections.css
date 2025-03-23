@@ -1,0 +1,86 @@
+/* Common Section Styles */
+section {
+  min-height: 100vh;
+  padding-top: 100px; /* Increase top padding for better separation */
+  padding-bottom: 50px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  scroll-margin-top: 80px; /* Accounts for fixed navbar when scrolling to section */
+}
+
+section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  position: relative;
+  display: inline-block;
+}
+
+section h2:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  background-color: hsl(var(--primary));
+  bottom: -10px;
+  left: 0;
+  border-radius: 2px;
+}
+
+/* Add container for better section content alignment */
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Fix Section Spacing for Mobile Devices */
+@media (max-width: 768px) {
+  /* Override section min-height to prevent overlapping */
+  section {
+    min-height: auto;
+    padding-top: 80px; /* Increased from 60px */
+    padding-bottom: 60px; /* Increased from 30px */
+    margin-bottom: 0;
+    scroll-margin-top: 70px; /* Adjusted for mobile */
+    position: relative;
+    clear: both; /* Ensure sections don't float */
+  }
+  
+  section h2 {
+    font-size: 2rem;
+    text-align: center;
+    width: 100%;
+  }
+  
+  /* Ensure each section has a clear visual separation */
+  section:after {
+    content: '';
+    display: block;
+    height: 1px;
+    background-color: hsla(var(--border), 0.5);
+    width: 90%;
+    margin: 0 auto;
+    position: absolute;
+    bottom: 0;
+    left: 5%;
+  }
+  
+  .section-container {
+    padding: 0 16px;
+  }
+  
+  /* Ensure sections don't overlap by forcing proper heights */
+  #about, #projects, #experience, #contact {
+    height: auto; /* Override any fixed heights */
+    min-height: auto;
+    overflow: visible;
+  }
+}
+
+@media (max-width: 480px) {
+  section {
+    padding-top: 70px;
+    padding-bottom: 50px;
+    scroll-margin-top: 60px;
+  }
+}

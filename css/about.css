@@ -1,0 +1,14 @@
+/* About section specific styles */
+#about {
+  /* Add any specific about section styles here */
+}
+
+#about .about-content {
+  /* Specific styles for about content */
+}
+
+@media (max-width: 768px) {
+  #about .about-content {
+    /* Mobile specific about content styles */
+  }
+}
