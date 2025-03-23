@@ -88,7 +88,7 @@ body {
 
 .navbar-container {
   display: flex;
-  height: 49px;
+  height: 60px; /* HEIGHT OF NAV BAR Increased from 49px to 60px for a taller navbar */
   max-width: 1200px;
   margin: 0 auto;
   align-items: center;
@@ -165,7 +165,7 @@ body.dark-theme .logo-svg {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 1px;
+  height: 1px; /* Increased from 1px to 3px for a more visible indicator */
   background-color: hsl(var(--primary));
   animation: slideIn 0.3s ease;
 }
