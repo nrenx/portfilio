@@ -1,10 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>My Website</title>
-  <meta name="viewport" content="width=device-width, initial-scale=5.0, minimum-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <title>Bollineni Narendra Chowdary | Web Developer & AI Explorer</title>
+  <meta name="description" content="Portfolio of Bollineni Narendra Chowdary, a Computer Science graduate specializing in web development, AI tools, and innovative digital solutions.">
+  <meta name="keywords" content="Narendra Chowdary, Web Developer, AI Explorer, Portfolio, React, JavaScript, Tailwind CSS, Frontend Developer">
+  <meta name="author" content="Bollineni Narendra Chowdary">
+
+  <!-- Open Graph / Social Media Meta Tags -->
+  <meta property="og:title" content="Bollineni Narendra Chowdary | Web Developer & AI Explorer">
+  <meta property="og:description" content="Portfolio of Bollineni Narendra Chowdary, a Computer Science graduate specializing in web development, AI tools, and innovative digital solutions.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://your-portfolio-url.com">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='6'%3E%3Cpath d='M 50 21 L 79 40 L 50 60 L 21 40 Z'/%3E%3Cpath d='M 50 40 L 79 59 L 50 79 L 21 59 Z'/%3E%3C/g%3E%3C/svg%3E">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="style.css">
-  <!-- Add new section-specific CSS files -->
   <link rel="stylesheet" href="css/sections.css">
   <link rel="stylesheet" href="css/home.css">
   <link rel="stylesheet" href="css/about.css">
@@ -33,9 +52,9 @@
             <div class="message">Vanakkam</div> <!-- Sri Lankan Tamil -->
         </div>
     </div>
-    
+
     <div class="cursor-dot"></div>
-    
+
     <!-- New Modern Navbar -->
     <header class="navbar-header">
         <div class="navbar-container">
@@ -101,12 +120,12 @@
                                 <i class="spark3"></i>
                                 <i class="spark4"></i>
                             </span>
-                        </i>    
+                        </i>
                     </label>
                 </div>
 
                 <!-- Mobile menu button -->
-                <button class="mobile-menu-btn">
+                <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
                     <i class="fas fa-bars menu-icon"></i>
                     <i class="fas fa-times close-icon hidden"></i>
                 </button>
@@ -128,32 +147,44 @@
     <!-- Main content -->
     <div class="introduction" id="home">
         <div class="text-container">
-            <div class="online" style="color: green; font-size: small; margin-bottom: 0; padding-bottom: 0;">
-                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: green; margin-right: 5px;"></span>
+            <div class="online">
+                <span class="status-dot"></span>
                 Available for work
             </div>
-            <h1 style="font-size: 3em; margin-bottom: 0; margin-top: 10px;">Hi, I'm Narendra <span style="font-size: 1em;">👋</span></h1>
+            <h1 class="intro-heading">Hi, I'm Narendra <span class="wave-emoji">👋</span></h1>
             <div class="bio-container">
-                <h2>AI Explorer | Web & App Developer | CSE Graduate</h2>
-                <p>I explore and experiment with the latest AI tools and technologies to create innovative websites and applications. With a background in Computer Science & Engineering, I focus on leveraging AI to build efficient, user-friendly, and impactful digital solutions.</p>
+                <h2 class="bio-title">No-Code Developer | AI Prompt Engineer | Mobile App Creator</h2>
+                <p class="bio-text">Recent Computer Science and Engineering graduate specializing in AI-assisted development and no-code solutions. I leverage modern AI tools to build efficient SaaS applications, mobile apps, and automation workflows. With expertise in cloud backends and API integration, I create cost-effective digital solutions with minimal traditional coding.</p>
             </div>
             <div class="button-container">
-                <button class="button get-in-touch">Get in Touch</button>
-                <button class="button view-projects">View Projects</button>
+                <button class="button get-in-touch">
+                    <span>Get in Touch</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="button view-projects">
+                    <span>View Projects</span>
+                    <i class="fas fa-code"></i>
+                </button>
             </div>
             <div class="social-icons">
-                <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="https://github.com/nrenx" class="social-icon" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://linkedin.com/in/bollineninarendrachowdary" class="social-icon" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="#" class="social-icon" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-twitter"></i>
+                </a>
             </div>
         </div>
         <div class="image-container">
             <div class="morph-container">
-                <img src="assets/images/Finding joy in the simplicity of the sea ............beach bridge ocean smile sunny monument collage sunset sunrise travelphotography travel.jpg" 
-                    alt="Florida Scrub Jay" 
+                <img src="assets/images/Finding joy in the simplicity of the sea ............beach bridge ocean smile sunny monument collage sunset sunrise travelphotography travel.jpg"
+                    alt="Profile Image"
                     class="background-image">
                 <img src="assets/images/Finding paradise wherever the waves take me. . . . . . . . . . . . . . . .beachbound beachlife beach beachdreaming ocean paradise wavesfordays explore rainyday shorelineadventures seasideescape beach.jpg"
-                    alt="Finding paradise wherever the waves take me"
+                    alt="Profile Image Alternative"
                     class="background-image second-image">
             </div>
         </div>
@@ -162,34 +193,227 @@
     <!-- Updated section structure with proper containers -->
     <section id="about">
         <div class="section-container">
-            <h2>About Section</h2>
+            <h2>About Me</h2>
             <div class="about-content">
-                <!-- Your about content will go here -->
-                <p>This is the about section with improved spacing and structure.</p>
+                <div class="about-text">
+                    <p class="about-intro">Recent Computer Science and Engineering graduate specializing in no-code/low-code development and AI-assisted tools. I focus on creating efficient digital solutions with minimal traditional coding, leveraging AI tools, cloud backends, and automation workflows. I'm seeking opportunities where I can apply my skills in AI prompt engineering, SaaS development, and mobile app creation to deliver cost-effective and innovative solutions.</p>
+
+                    <div class="education-container">
+                        <h3>Education</h3>
+                        <div class="education-item">
+                            <div class="education-year">Expected 2026</div>
+                            <div class="education-details">
+                                <h4>Bachelor of Engineering in Computer Science and Engineering</h4>
+                                <p>NBKRIST College Autonomous</p>
+                                <p>CGPA: 8.2 (Current)</p>
+                            </div>
+                        </div>
+                        <div class="education-item">
+                            <div class="education-year">Graduated 2022</div>
+                            <div class="education-details">
+                                <h4>Intermediate</h4>
+                                <p>Narayana Junior College, State Board</p>
+                                <p>CGPA: 5.55</p>
+                            </div>
+                        </div>
+                        <div class="education-item">
+                            <div class="education-year">Graduated 2020</div>
+                            <div class="education-details">
+                                <h4>SSC</h4>
+                                <p>Narayana EM High School, State Board</p>
+                                <p>CGPA: 9.88</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skills-container">
+                    <h3>Skills</h3>
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h4>No-Code/Low-Code</h4>
+                            <ul class="skills-list">
+                                <li>SaaS development using AI-assisted tools & platforms</li>
+                            </ul>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Cloud & Backend</h4>
+                            <ul class="skills-list">
+                                <li>Supabase & Firebase – auth, DB, storage</li>
+                                <li>API Integration & key management</li>
+                                <li>Cost-optimized usage of 3rd-party services</li>
+                            </ul>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Mobile Development</h4>
+                            <ul class="skills-list">
+                                <li>Android & iOS dev via AI tools</li>
+                                <li>Android Studio</li>
+                                <li>Xcode</li>
+                            </ul>
+                        </div>
+                        <div class="skill-category">
+                            <h4>AI & Automation</h4>
+                            <ul class="skills-list">
+                                <li>AI Prompt Engineering with low-iteration design</li>
+                                <li>Workflow automation using n8n</li>
+                                <li>Telegram bots for info delivery & engagement</li>
+                            </ul>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Web Development</h4>
+                            <ul class="skills-list">
+                                <li>HTML</li>
+                                <li>CSS</li>
+                                <li>JavaScript</li>
+                                <li>Basic front-end tasks</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </section>
-    
+
     <section id="projects">
         <div class="section-container">
-            <h2>Projects Section</h2>
+            <h2>Projects</h2>
             <div class="projects-content">
-                <!-- Your projects content will go here -->
-                <p>This is the projects section with improved spacing and structure.</p>
+                <div class="projects-grid">
+                    <!-- Project 1 -->
+                    <div class="project-card">
+                        <div class="project-content">
+                            <h3 class="project-title">Trade Book Ledge</h3>
+                            <p class="project-description">A SaaS (Software as a Service) product for business management, targeting middlemen traders with subscription-based access model.</p>
+                            <ul class="project-features">
+                                <li>Leveraged no-code platforms and AI tools (ChatGPT, Claude) to rapidly build a scalable cloud solution</li>
+                                <li>Created a complete SaaS ecosystem with web application (Vite, React, TypeScript)</li>
+                                <li>Integrated with Supabase for secure user authentication and data management</li>
+                            </ul>
+                            <div class="project-tech">
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">TypeScript</span>
+                                <span class="tech-tag">Vite</span>
+                                <span class="tech-tag">Supabase</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/nrenx/Trade-Book-Ledge" target="_blank" class="project-link github"><i class="fab fa-github"></i> GitHub</a>
+                                <a href="https://nrenx.github.io/Trade-Book-Ledge/" target="_blank" class="project-link demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                            </div>
+                        </div>
+                        <div class="project-image-container">
+                            <div class="project-image-placeholder">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="project-card">
+                        <div class="project-content">
+                            <h3 class="project-title">NBKRIST Student Portal</h3>
+                            <p class="project-description">A student portal featuring academic information access, attendance tracking, and exam results.</p>
+                            <ul class="project-features">
+                                <li>Developed using AI tools and no-code approaches</li>
+                                <li>Integrated modern technologies (Vite, React, Tailwind CSS) and Supabase backend</li>
+                                <li>Created responsive design and automated deployment to GitHub Pages</li>
+                            </ul>
+                            <div class="project-tech">
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">Tailwind CSS</span>
+                                <span class="tech-tag">Supabase</span>
+                                <span class="tech-tag">GitHub Pages</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/nrenx/nbkrist-student-portal.git" target="_blank" class="project-link github"><i class="fab fa-github"></i> GitHub</a>
+                                <a href="https://nbkrstudenthub.me/" target="_blank" class="project-link demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                            </div>
+                        </div>
+                        <div class="project-image-container">
+                            <div class="project-image-placeholder">
+                                <i class="fas fa-university"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- More Projects Link -->
+                    <div class="more-projects">
+                        <a href="https://github.com/nrenx" target="_blank" class="more-projects-link">
+                            <i class="fab fa-github"></i>
+                            <span>More projects on GitHub</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
-    
+
     <section id="experience">
         <div class="section-container">
-            <h2>Experience Section</h2>
+            <h2>Experience & Certifications</h2>
             <div class="experience-content">
-                <!-- Your experience content will go here -->
-                <p>This is the experience section with improved spacing and structure.</p>
+                <!-- Certifications -->
+                <div class="certifications-container">
+                    <h3>Certifications</h3>
+                    <div class="certifications-grid">
+                        <div class="certification-card">
+                            <div class="certification-icon">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <div class="certification-details">
+                                <h4>Critical Thinking & Problem Solving</h4>
+                                <p>LinkedIn Learning (2023)</p>
+                            </div>
+                        </div>
+
+                        <div class="certification-card">
+                            <div class="certification-icon">
+                                <i class="fab fa-python"></i>
+                            </div>
+                            <div class="certification-details">
+                                <h4>Python Programming</h4>
+                                <p>Coursera (2022)</p>
+                            </div>
+                        </div>
+
+                        <div class="certification-card">
+                            <div class="certification-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div class="certification-details">
+                                <h4>Web Development Fundamentals</h4>
+                                <p>Udemy (2023)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Extracurricular Activities -->
+                <div class="activities-container">
+                    <h3>Extracurricular Activities</h3>
+                    <ul class="activities-list">
+                        <li>
+                            <i class="fas fa-laptop-code"></i>
+                            <span>Participated in college-level coding competitions (2022-2023)</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-users"></i>
+                            <span>Member of the Computer Science Club at NBKRIST College</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-hands-helping"></i>
+                            <span>Volunteer for technical events at department symposiums</span>
+                        </li>
+                    </ul>
+                </div>
+
+
             </div>
         </div>
     </section>
-    
+
     <section id="contact">
         <div class="section-container">
             <div class="contact-content">
@@ -197,16 +421,63 @@
                     <h1>GOT A VISION? LET'S BRING IT TO LIFE!</h1>
                     <p>I'm enthusiastic about collaborating on innovative projects. Let's connect and explore how we can bring your vision to life!</p>
                 </div>
-                <div class="contact-bottom">
-                    <div class="content-wrapper">
-                        <a href="mailto:your-email@example.com" class="email-link">your-email@example.com</a>
+
+                <div class="contact-form-container">
+                    <div class="contact-info">
+                        <h3>Contact Information</h3>
+                        <div class="contact-info-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:narendrabollineni2002@gmail.com" class="email-link">narendrabollineni2002@gmail.com</a>
+                        </div>
+                        <div class="contact-info-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:+917989976214" class="phone-link">+91 798 997 6214</a>
+                        </div>
+                        <div class="contact-info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Edulapalli(Vi), Gudur(M), Tirupathi(D), Andhra Pradesh, 524409</span>
+                        </div>
+
                         <div class="social-icons">
-                            <a href="#" class="social-icon linkedin" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
-                            <a href="#" class="social-icon github" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+                            <a href="https://linkedin.com/in/bollineninarendrachowdary" class="social-icon linkedin" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+                            <a href="https://github.com/nrenx" class="social-icon github" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
                             <a href="#" class="social-icon twitter" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
                         </div>
-                        <button class="resume-button">Download Resume</button>
+
+                        <button class="resume-button">
+                            <i class="fas fa-file-pdf"></i> View Resume
+                        </button>
                     </div>
+
+                    <div class="contact-form">
+                        <h3>Send Me a Message</h3>
+                        <form id="contact-form">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" placeholder="Your Email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Subject</label>
+                                <input type="text" id="subject" name="subject" placeholder="Subject" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="submit-button">
+                                <span>Send Message</span>
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="contact-footer">
+                    <p>© 2024 Bollineni Narendra Chowdary. All rights reserved.</p>
                 </div>
             </div>
         </div>

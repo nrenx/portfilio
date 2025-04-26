@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const closeIcon = document.querySelector(".close-icon");
   const navLinks = document.querySelectorAll(".nav-link");
   const navbarLogo = document.querySelector(".navbar-logo");
-  
+
   let particleAnimation = null;
   let activeSection = "home";
   let landingAnimationInitialized = false;
@@ -20,23 +20,23 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       navbarHeader.classList.remove("scrolled");
     }
-    
+
     // Update active section based on scroll position with improved mobile detection
     const sections = ["home", "about", "projects", "experience", "contact"];
-    
+
     // Get the navbar height to account for offset
     const navbarHeight = document.querySelector('.navbar-header').offsetHeight;
     const isMobile = window.innerWidth <= 768;
-    
+
     // Additional offset for mobile devices
     const viewportOffset = isMobile ? navbarHeight + 20 : navbarHeight + 50;
-    
+
     // Find which section is currently in view
     for (const section of sections) {
       const element = document.getElementById(section);
       if (element) {
         const rect = element.getBoundingClientRect();
-        
+
         // Mobile devices need different calculation due to different viewport sizes
         if (isMobile) {
           // On mobile, consider a section in view when it occupies significant portion of screen
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Set active navigation link
   function setActiveSection(sectionId) {
     if (activeSection === sectionId) return;
-    
+
     activeSection = sectionId;
     navLinks.forEach(link => {
       if (link.dataset.section === sectionId) {
@@ -77,16 +77,16 @@ document.addEventListener("DOMContentLoaded", function () {
       const navbarHeight = document.querySelector('.navbar-header').offsetHeight;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
-      
+
       // Add additional offset for mobile
       const isMobile = window.innerWidth <= 768;
       const mobileOffset = isMobile ? 10 : 0; // Extra 10px offset on mobile
-      
+
       window.scrollTo({
         top: offsetPosition - mobileOffset,
         behavior: "smooth"
       });
-      
+
       // For mobile, add a slight delay before setting active to ensure scrolling is complete
       if (isMobile) {
         setTimeout(() => {
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
       } else {
         setActiveSection(sectionId);
       }
-      
+
       // Close mobile menu if open
       if (mobileNav.classList.contains("open")) {
         toggleMobileMenu();
@@ -103,27 +103,63 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Toggle mobile menu
+  // Toggle mobile menu with improved animation and body scroll lock
   function toggleMobileMenu() {
+    const isOpening = !mobileNav.classList.contains("open");
+
+    // Toggle classes for menu appearance
     mobileNav.classList.toggle("open");
-    menuIcon.classList.toggle("hidden");
-    closeIcon.classList.toggle("hidden");
+
+    // Ensure only one icon is visible at a time with proper transitions
+    if (isOpening) {
+      // When opening menu - show X, hide hamburger
+      menuIcon.classList.add("hidden");
+
+      // Small delay to ensure smooth transition
+      setTimeout(() => {
+        closeIcon.classList.remove("hidden");
+      }, 50);
+
+      // Prevent background scrolling
+      document.body.style.overflow = "hidden";
+
+      // Add active indicator to current section
+      setTimeout(() => {
+        const currentActiveLink = document.querySelector(`.mobile-nav .nav-link[data-section="${activeSection}"]`);
+        if (currentActiveLink) {
+          currentActiveLink.classList.add("active");
+        }
+      }, 100);
+    } else {
+      // When closing menu - show hamburger, hide X
+      closeIcon.classList.add("hidden");
+
+      // Small delay to ensure smooth transition
+      setTimeout(() => {
+        menuIcon.classList.remove("hidden");
+      }, 50);
+
+      // Re-enable scrolling after menu closes
+      setTimeout(() => {
+        document.body.style.overflow = "";
+      }, 300); // Match this with the menu transition time
+    }
   }
 
   // Update the SVG logo with the correct animation for the current theme
   function updateLogoAnimation() {
     if (!navbarLogo) return;
-    
+
     // Create dark or light mode SVG based on the current theme
     const isDarkMode = body.classList.contains("dark-theme");
     const strokeColor = isDarkMode ? "#fff" : "#000";
-    const animateValues = isDarkMode 
-      ? "rgba(255,255,255,1); rgba(100,100,100,0)" 
+    const animateValues = isDarkMode
+      ? "rgba(255,255,255,1); rgba(100,100,100,0)"
       : "rgba(0,0,0,1); rgba(100,100,100,0)";
-    const bottomAnimateValues = isDarkMode 
-      ? "rgba(100,100,100,0); rgba(255,255,255,1)" 
+    const bottomAnimateValues = isDarkMode
+      ? "rgba(100,100,100,0); rgba(255,255,255,1)"
       : "rgba(100,100,100,0); rgba(0,0,0,1)";
-    
+
     // Replace the entire SVG with the correct animation values
     navbarLogo.innerHTML = `
       <svg viewBox="0 0 100 100" class="logo-svg" style="stroke: ${strokeColor}">
@@ -166,9 +202,9 @@ document.addEventListener("DOMContentLoaded", function () {
     body.classList.add("dark-mode-animation");
     body.classList.toggle("dark-theme");
     document.documentElement.classList.toggle("dark"); // Toggle the .dark class for CSS variables
-    
+
     updateLogoAnimation(); // Update the logo with proper animation
-    
+
     // Initialize or destroy particle animation based on dark mode state
     if (body.classList.contains("dark-theme")) {
       if (!particleAnimation) {
@@ -187,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
         particleAnimation = null;
       }
     }
-    
+
     setTimeout(() => {
       body.classList.remove("dark-mode-animation");
     }, 1000);
@@ -200,11 +236,11 @@ document.addEventListener("DOMContentLoaded", function () {
   if (switchInput) {
     switchInput.addEventListener("change", toggleTheme);
   }
-  
+
   // Check if dark mode is already active on page load
   if (body.classList.contains("dark-theme")) {
     document.documentElement.classList.add("dark"); // Make sure the dark class is applied
-    
+
     particleAnimation = new ParticleAnimation({
       particleCount: 100,
       particleColor: "rgba(255, 255, 255, 0.5)",
@@ -214,14 +250,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     particleAnimation.start();
   }
-  
+
   // Add event listeners for navigation
   window.addEventListener("scroll", handleScroll);
-  
+
   if (mobileMenuBtn) {
     mobileMenuBtn.addEventListener("click", toggleMobileMenu);
   }
-  
+
   navLinks.forEach(link => {
     link.addEventListener("click", () => {
       scrollToSection(link.dataset.section);
@@ -243,55 +279,61 @@ document.addEventListener("DOMContentLoaded", function () {
       scrollToSection("projects");
     });
   }
-  
+
   // Initialize navbar state
   handleScroll();
-  
+
+  // Ensure menu icons are in the correct state on page load
+  if (menuIcon && closeIcon) {
+    menuIcon.classList.remove("hidden");
+    closeIcon.classList.add("hidden");
+  }
+
   // Initialize landing page animation if it hasn't already been done
   if (!landingAnimationInitialized) {
     initLandingAnimation();
     landingAnimationInitialized = true;
   }
-  
+
   // Landing Page Animation
   function initLandingAnimation() {
     const messages = document.querySelectorAll('.message');
     if (messages.length === 0) return; // Exit if no messages (already gone)
-    
+
     let currentIndex = 0;
     const landingScreen = document.getElementById('landing');
     const mainContent = document.querySelector('.introduction');
     const header = document.querySelector('.navbar-header'); // Updated selector to new navbar
-    
+
     // Create particles for visual effect
     function createParticles() {
       if (!landingScreen) return;
-      
+
       // Clear any existing particles
       const existingParticles = document.querySelectorAll('.particle');
       existingParticles.forEach(p => p.remove());
-      
+
       // Create new particles
       for (let i = 0; i < 50; i++) {
         const particle = document.createElement('div');
         particle.classList.add('particle');
-        
+
         // Random positions
         const x = Math.random() * window.innerWidth;
         const y = Math.random() * window.innerHeight;
-        
+
         particle.style.left = `${x}px`;
         particle.style.top = `${y}px`;
-        
+
         // Random animation
         const duration = 0.8 + Math.random() * 0.7;
         const direction = Math.random() > 0.5 ? 1 : -1;
         const xMove = (Math.random() * 100) * direction;
         const yMove = (Math.random() * 100) * direction;
-        
+
         particle.style.animation = `particleMove ${duration}s ease-out forwards`;
         particle.style.opacity = Math.random() * 0.5 + 0.3;
-        
+
         // Add keyframes dynamically
         const keyframes = `
           @keyframes particleMove {
@@ -299,11 +341,11 @@ document.addEventListener("DOMContentLoaded", function () {
             100% { transform: translate(${xMove}px, ${yMove}px); opacity: 0; }
           }
         `;
-        
+
         const style = document.createElement('style');
         style.innerHTML = keyframes;
         document.head.appendChild(style);
-        
+
         landingScreen.appendChild(particle);
       }
     }
@@ -321,38 +363,38 @@ document.addEventListener("DOMContentLoaded", function () {
     // Enhanced slide-up animation
     setTimeout(() => {
       if (!landingScreen) return;
-      
+
       // Create particle effect right before transition
       createParticles();
-      
+
       // Add 3D transition effect to landing screen
       landingScreen.classList.add('hidden');
-      
+
       // Prepare main content for reveal
       if (mainContent) {
         mainContent.style.opacity = '0';
         mainContent.style.transform = 'translateY(30px)';
       }
-      
+
       if (header) {
         header.style.opacity = '0';
         header.style.transform = 'translateY(-30px)';
       }
-      
+
       // Clear message animation
       clearInterval(messageInterval);
-      
+
       // Hide landing screen and reveal content with faster staggered animation
       setTimeout(() => {
         if (landingScreen) landingScreen.style.display = 'none';
-        
+
         // Reveal header first
         if (header) {
           header.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
           header.style.opacity = '1';
           header.style.transform = 'translateY(0)';
         }
-        
+
         // Then reveal main content with shorter delay
         setTimeout(() => {
           if (mainContent) {
@@ -384,26 +426,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Initialize contact section visibility
   handleContactSectionVisibility();
-  
+
   // Add event listener for scroll to check contact section visibility
   window.addEventListener('scroll', handleContactSectionVisibility);
-  
+
   // Handle resume button click
   const resumeButton = document.querySelector('.resume-button');
   if (resumeButton) {
     resumeButton.addEventListener('click', function() {
-      // Change this to the actual resume download URL
-      window.open('assets/resume.pdf', '_blank');
+      // Open the resume in a new window
+      window.open('assets/resume/resume.pdf', '_blank');
     });
   }
 
   // Add mobile device detection and handling
   function isMobileDevice() {
-    return (window.innerWidth <= 768) || 
-           (navigator.maxTouchPoints > 0) || 
+    return (window.innerWidth <= 768) ||
+           (navigator.maxTouchPoints > 0) ||
            (navigator.msMaxTouchPoints > 0);
   }
-  
+
   // Adjust landing animation for mobile
   function adjustForMobileDevice() {
     if (isMobileDevice()) {
@@ -419,7 +461,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         particleAnimation.start();
       }
-      
+
       // Reduce or disable cursor dot on mobile
       const cursorDot = document.querySelector('.cursor-dot');
       if (cursorDot) {
@@ -427,28 +469,54 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   }
-  
+
   // Call adjustments after initialization
   window.addEventListener('load', adjustForMobileDevice);
   window.addEventListener('resize', adjustForMobileDevice);
-  
-  // Add a function to fix any viewport issues on page load and orientation change
+
+  // Enhanced function to fix viewport issues on mobile devices
   function fixViewportIssues() {
+    // Fix the visual viewport issues on mobile
+    const viewportMetaTag = document.querySelector('meta[name="viewport"]');
+    if (viewportMetaTag) {
+      // Ensure proper viewport settings for mobile
+      viewportMetaTag.setAttribute('content',
+        'width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no');
+
+      // After a short delay, allow user scaling again for accessibility
+      setTimeout(() => {
+        viewportMetaTag.setAttribute('content',
+          'width=device-width, initial-scale=1.0, minimum-scale=1.0');
+      }, 1000);
+    }
+
     // Force a re-layout to fix any positioning issues
     document.body.style.display = 'none';
     document.body.offsetHeight; // Force a reflow
     document.body.style.display = '';
-    
+
     // Update active section
     handleScroll();
-    
+
     // Fix content positioning after resize/orientation change
     setTimeout(() => {
+      // Adjust scroll position if needed
       const activeElement = document.querySelector('.nav-link.active');
       if (activeElement && activeElement.dataset.section) {
-        scrollToSection(activeElement.dataset.section);
+        // Only scroll if we're not at the top of the section already
+        const section = document.getElementById(activeElement.dataset.section);
+        if (section) {
+          const navbarHeight = document.querySelector('.navbar-header').offsetHeight;
+          const sectionTop = section.getBoundingClientRect().top + window.pageYOffset;
+          const currentPos = window.pageYOffset;
+
+          // Only adjust if we're significantly off
+          if (Math.abs(currentPos - (sectionTop - navbarHeight)) > 50) {
+            scrollToSection(activeElement.dataset.section);
+          }
+        }
       }
-    }, 200);
+    }, 300);
   }
 
   // Call on orientation change and after page load
@@ -464,7 +532,7 @@ class ParticleAnimation {
     this.backgroundColor = options.backgroundColor || "transparent";
     this.particleSize = options.particleSize || { min: 0.1, max: 2 };
     this.particleSpeed = options.particleSpeed || { min: -1, max: 1 };
-    
+
     this.canvas = document.createElement("canvas");
     this.canvas.style.position = "fixed";
     this.canvas.style.top = "0";
@@ -476,18 +544,18 @@ class ParticleAnimation {
     this.ctx = this.canvas.getContext("2d");
     this.particles = [];
     this.animationFrameId = null;
-    
+
     this.handleResize = this.handleResize.bind(this);
     window.addEventListener("resize", this.handleResize);
   }
-  
+
   start() {
     document.body.appendChild(this.canvas);
     this.handleResize();
     this.createParticles();
     this.animate();
   }
-  
+
   destroy() {
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
@@ -498,12 +566,12 @@ class ParticleAnimation {
       this.canvas.parentNode.removeChild(this.canvas);
     }
   }
-  
+
   handleResize() {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
   }
-  
+
   createParticles() {
     this.particles = [];
     for (let i = 0; i < this.particleCount; i++) {
@@ -515,7 +583,7 @@ class ParticleAnimation {
       ));
     }
   }
-  
+
   animate() {
     // Clear canvas with background color
     if (this.backgroundColor === "transparent") {
@@ -524,13 +592,13 @@ class ParticleAnimation {
       this.ctx.fillStyle = this.backgroundColor;
       this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
-    
+
     // Update and draw particles
     this.particles.forEach(particle => {
       particle.update();
       particle.draw(this.ctx);
     });
-    
+
     this.animationFrameId = requestAnimationFrame(() => this.animate());
   }
 }
@@ -545,18 +613,18 @@ class Particle {
     this.speedX = Math.random() * (speedRange.max - speedRange.min) + speedRange.min;
     this.speedY = Math.random() * (speedRange.max - speedRange.min) + speedRange.min;
   }
-  
+
   update() {
     this.x += this.speedX;
     this.y += this.speedY;
-    
+
     // Wrap around edges
     if (this.x > this.canvas.width) this.x = 0;
     if (this.x < 0) this.x = this.canvas.width;
     if (this.y > this.canvas.height) this.y = 0;
     if (this.y < 0) this.y = this.canvas.height;
   }
-  
+
   draw(ctx) {
     ctx.fillStyle = this.color;
     ctx.beginPath();

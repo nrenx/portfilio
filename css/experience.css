@@ -1,14 +1,381 @@
 /* Experience section specific styles */
 #experience {
-  /* Add any specific experience section styles here */
+  background-color: hsl(var(--background));
+  position: relative;
+  overflow: hidden;
+}
+
+#experience::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background: radial-gradient(circle at 80% 20%, hsla(var(--primary), 0.03) 0%, transparent 60%);
+  z-index: 0;
 }
 
 #experience .experience-content {
-  /* Specific styles for experience content */
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+
+/* Certifications styles */
+.certifications-container {
+  margin-bottom: 40px;
+}
+
+.certifications-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.certification-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 20px;
+  background-color: hsla(var(--card), 0.5);
+  border-radius: 12px;
+  border: 1px solid hsl(var(--border));
+  transition: all 0.3s ease;
+}
+
+.certification-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  border-color: hsla(var(--primary), 0.3);
+}
+
+.certification-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background-color: hsla(var(--primary), 0.1);
+  color: hsl(var(--primary));
+  border-radius: 50%;
+  font-size: 1.5rem;
+}
+
+.certification-details {
+  flex: 1;
+}
+
+.certification-details h4 {
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+  color: hsl(var(--foreground));
+}
+
+.certification-details p {
+  color: hsl(var(--muted-foreground));
+  font-size: 0.9rem;
+}
+
+/* Activities styles */
+.activities-container {
+  margin-bottom: 40px;
+}
+
+.activities-list {
+  list-style: none;
+  padding: 0;
+  margin: 25px 0 0 0;
+}
+
+.activities-list li {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 0;
+  border-bottom: 1px solid hsla(var(--border), 0.5);
+}
+
+.activities-list li:last-child {
+  border-bottom: none;
+}
+
+.activities-list li i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: hsla(var(--primary), 0.1);
+  color: hsl(var(--primary));
+  border-radius: 50%;
+  font-size: 1.2rem;
+}
+
+.activities-list li span {
+  color: hsl(var(--foreground));
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Interpersonal skills styles */
+.interpersonal-skills {
+  margin-bottom: 40px;
+}
+
+.interpersonal-skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.skill-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  background-color: hsla(var(--card), 0.5);
+  border-radius: 12px;
+  border: 1px solid hsl(var(--border));
+  transition: all 0.3s ease;
+}
+
+.skill-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  border-color: hsla(var(--primary), 0.3);
+}
+
+.skill-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background-color: hsla(var(--primary), 0.1);
+  color: hsl(var(--primary));
+  border-radius: 50%;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.skill-name {
+  color: hsl(var(--foreground));
+  font-weight: 500;
+}
+
+/* Hobbies styles */
+.hobbies-container {
+  margin-bottom: 20px;
+}
+
+.hobbies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.hobby-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  background-color: hsla(var(--card), 0.5);
+  border-radius: 12px;
+  border: 1px solid hsl(var(--border));
+  transition: all 0.3s ease;
+}
+
+.hobby-item:hover {
+  transform: translateY(-5px) rotate(3deg);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  border-color: hsla(var(--primary), 0.3);
+}
+
+.hobby-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background-color: hsla(var(--primary), 0.1);
+  color: hsl(var(--primary));
+  border-radius: 50%;
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+}
+
+.hobby-name {
+  color: hsl(var(--foreground));
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* Testimonials section */
+.testimonials-container {
+  margin-top: 3rem;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.testimonial-card {
+  background-color: hsl(var(--card));
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-content {
+  position: relative;
+  font-style: italic;
+  color: hsl(var(--foreground));
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.testimonial-content::before {
+  content: '\201C';
+  position: absolute;
+  left: 0;
+  top: -0.5rem;
+  font-size: 2rem;
+  color: hsl(var(--primary));
+  font-family: serif;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.author-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.author-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.author-name {
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+
+.author-title {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+}
+
+/* Mobile styles */
+@media (max-width: 992px) {
+  .certifications-grid,
+  .interpersonal-skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hobbies-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
-  #experience .experience-content {
-    /* Mobile specific experience content styles */
+  .certifications-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .interpersonal-skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hobbies-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .certification-card {
+    padding: 15px;
+  }
+
+  .certification-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+
+  .activities-list li {
+    padding: 12px 0;
+  }
+
+  .activities-list li i {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+
+  .activities-list li span {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .interpersonal-skills-grid,
+  .hobbies-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .skill-item,
+  .hobby-item {
+    padding: 15px 10px;
+  }
+
+  .skill-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+
+  .hobby-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+
+  .skill-name,
+  .hobby-name {
+    font-size: 0.85rem;
+  }
+
+  .certification-details h4 {
+    font-size: 1rem;
+  }
+
+  .certification-details p {
+    font-size: 0.8rem;
   }
 }
