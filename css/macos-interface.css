@@ -1,0 +1,573 @@
+/* macOS Interface Styles */
+:root {
+  --macos-window-bg: rgba(236, 236, 236, 0.8);
+  --macos-window-border: rgba(200, 200, 200, 0.3);
+  --macos-desktop-bg: #2d72d9;
+  --macos-close: #ff5f56;
+  --macos-minimize: #ffbd2e;
+  --macos-maximize: #27c93f;
+  --macos-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  --macos-folder: #3498db;
+  --macos-dock-bg: rgba(255, 255, 255, 0.2);
+  --macos-text: #333;
+  --macos-window-radius: 8px;
+  --macos-blur: 10px;
+}
+
+.dark-theme {
+  --macos-window-bg: rgba(50, 50, 50, 0.8);
+  --macos-window-border: rgba(80, 80, 80, 0.3);
+  --macos-desktop-bg: #1e3a5f;
+  --macos-text: #f5f5f7;
+}
+
+/* macOS Desktop Container */
+.macos-desktop {
+  position: relative;
+  width: 100%;
+  min-height: 600px;
+  background: var(--macos-desktop-bg);
+  border-radius: var(--macos-window-radius);
+  overflow: hidden;
+  box-shadow: var(--macos-shadow);
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* macOS Menu Bar */
+.macos-menu-bar {
+  height: 24px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(var(--macos-blur));
+  -webkit-backdrop-filter: blur(var(--macos-blur));
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  color: var(--macos-text);
+  font-size: 12px;
+  border-top-left-radius: var(--macos-window-radius);
+  border-top-right-radius: var(--macos-window-radius);
+}
+
+.dark-theme .macos-menu-bar {
+  background: rgba(40, 40, 40, 0.8);
+}
+
+.macos-menu-bar .apple-logo {
+  margin-right: 15px;
+  font-size: 14px;
+}
+
+.macos-menu-bar .menu-items {
+  display: flex;
+  gap: 15px;
+}
+
+.macos-menu-bar .menu-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Desktop Content Area */
+.macos-desktop-content {
+  flex: 1;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 20px;
+  align-content: start;
+}
+
+/* Folder Icons */
+.macos-folder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  width: 100px;
+  text-align: center;
+}
+
+.macos-folder:hover {
+  transform: scale(1.05);
+}
+
+.macos-folder-icon {
+  width: 60px;
+  height: 48px;
+  background-color: var(--macos-folder);
+  border-radius: 8px 8px 2px 2px;
+  position: relative;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.macos-folder-icon::before {
+  content: '';
+  position: absolute;
+  width: 25px;
+  height: 8px;
+  background-color: var(--macos-folder);
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px 2px 0 0;
+}
+
+.macos-folder-name {
+  color: white;
+  font-size: 12px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* macOS Dock */
+.macos-dock {
+  height: 60px;
+  background: var(--macos-dock-bg);
+  backdrop-filter: blur(var(--macos-blur));
+  -webkit-backdrop-filter: blur(var(--macos-blur));
+  margin: 0 auto 15px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  max-width: 80%;
+}
+
+.dock-item {
+  width: 40px;
+  height: 40px;
+  margin: 0 5px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.dock-item:hover {
+  transform: translateY(-8px) scale(1.1);
+}
+
+/* Project Window */
+.macos-window {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 900px;
+  height: 80%;
+  max-height: 600px;
+  background: var(--macos-window-bg);
+  backdrop-filter: blur(var(--macos-blur));
+  -webkit-backdrop-filter: blur(var(--macos-blur));
+  border-radius: var(--macos-window-radius);
+  box-shadow: var(--macos-shadow);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  border: 1px solid var(--macos-window-border);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.macos-window.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.window-titlebar {
+  height: 32px;
+  background: rgba(236, 236, 236, 0.8);
+  backdrop-filter: blur(var(--macos-blur));
+  -webkit-backdrop-filter: blur(var(--macos-blur));
+  border-top-left-radius: var(--macos-window-radius);
+  border-top-right-radius: var(--macos-window-radius);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  cursor: move;
+}
+
+.dark-theme .window-titlebar {
+  background: rgba(60, 60, 60, 0.8);
+}
+
+.window-title {
+  flex: 1;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--macos-text);
+}
+
+.window-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.window-button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.window-close {
+  background-color: var(--macos-close);
+}
+
+.window-minimize {
+  background-color: var(--macos-minimize);
+}
+
+.window-maximize {
+  background-color: var(--macos-maximize);
+}
+
+.window-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Project Content */
+.project-window-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.project-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.project-icon {
+  font-size: 2rem;
+  margin-right: 15px;
+  color: var(--macos-folder);
+}
+
+.project-window-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--macos-text);
+}
+
+.project-window-description {
+  margin-bottom: 20px;
+  color: var(--macos-text);
+  line-height: 1.6;
+}
+
+.project-files {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.project-file {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.project-file:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark-theme .project-file:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.file-icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+  color: var(--macos-text);
+}
+
+.file-name {
+  font-size: 12px;
+  text-align: center;
+  color: var(--macos-text);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-window-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+  border-top: 1px solid var(--macos-window-border);
+}
+
+.project-links {
+  display: flex;
+  gap: 10px;
+}
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.project-link.github {
+  background-color: #24292e;
+  color: white;
+}
+
+.project-link.demo {
+  background-color: var(--macos-folder);
+  color: white;
+}
+
+.project-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tech-tag {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: var(--macos-text);
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.dark-theme .tech-tag {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Overlay */
+.macos-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.macos-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Window Animations */
+.macos-window.window-opening {
+  animation: window-open 0.3s ease forwards;
+}
+
+.macos-window.minimizing {
+  animation: window-minimize 0.3s ease forwards;
+}
+
+.macos-window.maximized {
+  width: 95% !important;
+  height: 90% !important;
+  transition: all 0.3s ease;
+}
+
+@keyframes window-open {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes window-minimize {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0;
+  }
+}
+
+/* File Click Animation */
+.project-file.file-clicked {
+  animation: file-click 0.3s ease;
+}
+
+@keyframes file-click {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Dock Item Hover Effect */
+.dock-item-neighbor {
+  transform: scale(0.9);
+  opacity: 0.7;
+  transition: all 0.2s ease;
+}
+
+/* Window Dragging Style */
+.macos-window.dragging {
+  opacity: 0.9;
+  transition: none;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .macos-desktop {
+    min-height: 500px;
+  }
+
+  .macos-window {
+    width: 90%;
+    height: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .macos-desktop-content {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .macos-folder {
+    width: 80px;
+  }
+
+  .macos-folder-icon {
+    width: 50px;
+    height: 40px;
+  }
+
+  .macos-dock {
+    height: 50px;
+    max-width: 95%;
+  }
+
+  .dock-item {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+
+  .project-files {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .macos-desktop-content {
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .macos-folder {
+    width: 70px;
+  }
+
+  .macos-folder-icon {
+    width: 45px;
+    height: 36px;
+  }
+
+  .macos-folder-name {
+    font-size: 11px;
+  }
+
+  .macos-dock {
+    height: 45px;
+    padding: 0 10px;
+  }
+
+  .dock-item {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    margin: 0 3px;
+  }
+
+  .window-titlebar {
+    height: 28px;
+  }
+
+  .window-content {
+    padding: 15px;
+  }
+
+  .project-window-title {
+    font-size: 1.2rem;
+  }
+
+  .project-files {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+
+  .project-window-footer {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .project-links {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .project-link {
+    width: 100%;
+    justify-content: center;
+  }
+}

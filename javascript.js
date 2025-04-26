@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // macOS Interface functionality
+  initMacOSInterface();
   const switchInput = document.querySelector(".switch input");
   const body = document.body;
   const navbarHeader = document.querySelector(".navbar-header");
@@ -652,4 +654,189 @@ if (image) {
   image.addEventListener("mouseout", function() {
     image.src = originalImageSrc;
   });
+}
+
+// macOS Interface Functionality
+function initMacOSInterface() {
+  // Update macOS clock
+  function updateMacOSClock() {
+    const clockElement = document.getElementById('macos-clock');
+    if (clockElement) {
+      const now = new Date();
+      let hours = now.getHours();
+      const minutes = now.getMinutes();
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+
+      hours = hours % 12;
+      hours = hours ? hours : 12; // Convert 0 to 12
+
+      const timeString = `${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+      clockElement.textContent = timeString;
+    }
+  }
+
+  // Update clock initially and then every minute
+  updateMacOSClock();
+  setInterval(updateMacOSClock, 60000);
+
+  // Handle folder clicks to open project windows
+  const folders = document.querySelectorAll('.macos-folder');
+  const overlay = document.querySelector('.macos-overlay');
+
+  folders.forEach(folder => {
+    folder.addEventListener('click', () => {
+      const projectId = folder.getAttribute('data-project');
+      const projectWindow = document.getElementById(`${projectId}-window`);
+
+      if (projectWindow) {
+        // Show overlay and window
+        overlay.classList.add('active');
+        projectWindow.classList.add('active');
+
+        // Add animation class
+        projectWindow.classList.add('window-opening');
+        setTimeout(() => {
+          projectWindow.classList.remove('window-opening');
+        }, 300);
+      }
+    });
+  });
+
+  // Handle window controls (close, minimize, maximize)
+  const closeButtons = document.querySelectorAll('.window-close');
+  const minimizeButtons = document.querySelectorAll('.window-minimize');
+  const maximizeButtons = document.querySelectorAll('.window-maximize');
+
+  closeButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      const window = e.target.closest('.macos-window');
+      if (window) {
+        window.classList.remove('active');
+        overlay.classList.remove('active');
+      }
+    });
+  });
+
+  minimizeButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      const window = e.target.closest('.macos-window');
+      if (window) {
+        window.classList.add('minimizing');
+        setTimeout(() => {
+          window.classList.remove('active');
+          window.classList.remove('minimizing');
+          overlay.classList.remove('active');
+        }, 300);
+      }
+    });
+  });
+
+  maximizeButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      const window = e.target.closest('.macos-window');
+      if (window) {
+        window.classList.toggle('maximized');
+      }
+    });
+  });
+
+  // Close windows when clicking on overlay
+  if (overlay) {
+    overlay.addEventListener('click', () => {
+      const activeWindows = document.querySelectorAll('.macos-window.active');
+      activeWindows.forEach(window => {
+        window.classList.remove('active');
+      });
+      overlay.classList.remove('active');
+    });
+  }
+
+  // Make windows draggable
+  const windows = document.querySelectorAll('.macos-window');
+
+  windows.forEach(window => {
+    const titlebar = window.querySelector('.window-titlebar');
+
+    if (titlebar) {
+      let isDragging = false;
+      let offsetX, offsetY;
+
+      titlebar.addEventListener('mousedown', (e) => {
+        // Don't drag if clicking on window controls
+        if (e.target.closest('.window-controls')) return;
+
+        isDragging = true;
+        offsetX = e.clientX - window.getBoundingClientRect().left;
+        offsetY = e.clientY - window.getBoundingClientRect().top;
+
+        // Add dragging class for styling
+        window.classList.add('dragging');
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+
+        const x = e.clientX - offsetX;
+        const y = e.clientY - offsetY;
+
+        // Apply new position
+        window.style.left = `${x}px`;
+        window.style.top = `${y}px`;
+        window.style.transform = 'none'; // Remove default centering
+      });
+
+      document.addEventListener('mouseup', () => {
+        isDragging = false;
+        window.classList.remove('dragging');
+      });
+    }
+  });
+
+  // Add animation to project files
+  const projectFiles = document.querySelectorAll('.project-file');
+
+  projectFiles.forEach(file => {
+    file.addEventListener('click', () => {
+      file.classList.add('file-clicked');
+      setTimeout(() => {
+        file.classList.remove('file-clicked');
+      }, 300);
+    });
+  });
+
+  // Add dock hover effect
+  const dockItems = document.querySelectorAll('.dock-item');
+
+  dockItems.forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      dockItems.forEach(otherItem => {
+        if (otherItem !== item) {
+          otherItem.classList.add('dock-item-neighbor');
+        }
+      });
+    });
+
+    item.addEventListener('mouseleave', () => {
+      dockItems.forEach(otherItem => {
+        otherItem.classList.remove('dock-item-neighbor');
+      });
+    });
+  });
+
+  // Add animation to projects section when it comes into view
+  const projectsSection = document.getElementById('projects');
+  const projectsContent = document.querySelector('.projects-content');
+
+  if (projectsSection && projectsContent) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          projectsContent.classList.add('animate');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    observer.observe(projectsSection);
+  }
 }

@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="css/home.css">
   <link rel="stylesheet" href="css/about.css">
   <link rel="stylesheet" href="css/projects.css">
+  <link rel="stylesheet" href="css/macos-interface.css">
   <link rel="stylesheet" href="css/experience.css">
   <link rel="stylesheet" href="css/contact.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -281,69 +282,219 @@
         <div class="section-container">
             <h2>Projects</h2>
             <div class="projects-content">
-                <div class="projects-grid">
-                    <!-- Project 1 -->
-                    <div class="project-card">
-                        <div class="project-content">
-                            <h3 class="project-title">Trade Book Ledge</h3>
-                            <p class="project-description">A SaaS (Software as a Service) product for business management, targeting middlemen traders with subscription-based access model.</p>
+                <!-- macOS Desktop Interface -->
+                <div class="macos-desktop">
+                    <!-- macOS Menu Bar -->
+                    <div class="macos-menu-bar">
+                        <div class="apple-logo"><i class="fab fa-apple"></i></div>
+                        <div class="menu-items">
+                            <span>Finder</span>
+                            <span>File</span>
+                            <span>Edit</span>
+                            <span>View</span>
+                            <span>Go</span>
+                            <span>Window</span>
+                            <span>Help</span>
+                        </div>
+                        <div class="menu-right">
+                            <span><i class="fas fa-wifi"></i></span>
+                            <span><i class="fas fa-battery-three-quarters"></i></span>
+                            <span id="macos-clock">12:00 PM</span>
+                        </div>
+                    </div>
+
+                    <!-- Desktop Content with Folders -->
+                    <div class="macos-desktop-content">
+                        <!-- Project 1 Folder -->
+                        <div class="macos-folder" data-project="trade-book-ledge">
+                            <div class="macos-folder-icon"></div>
+                            <div class="macos-folder-name">Trade Book Ledge</div>
+                        </div>
+
+                        <!-- Project 2 Folder -->
+                        <div class="macos-folder" data-project="nbkrist-portal">
+                            <div class="macos-folder-icon"></div>
+                            <div class="macos-folder-name">NBKRIST Portal</div>
+                        </div>
+
+                        <!-- More Projects Folder -->
+                        <div class="macos-folder" data-project="more-projects">
+                            <div class="macos-folder-icon"></div>
+                            <div class="macos-folder-name">More Projects</div>
+                        </div>
+                    </div>
+
+                    <!-- macOS Dock -->
+                    <div class="macos-dock">
+                        <div class="dock-item"><i class="fab fa-safari"></i></div>
+                        <div class="dock-item"><i class="fas fa-envelope"></i></div>
+                        <div class="dock-item"><i class="fas fa-music"></i></div>
+                        <div class="dock-item"><i class="fas fa-code"></i></div>
+                        <div class="dock-item"><i class="fas fa-terminal"></i></div>
+                        <div class="dock-item"><i class="fas fa-folder"></i></div>
+                    </div>
+                </div>
+
+                <!-- Project Windows (Hidden by default) -->
+                <div class="macos-overlay"></div>
+
+                <!-- Trade Book Ledge Project Window -->
+                <div class="macos-window" id="trade-book-ledge-window">
+                    <div class="window-titlebar">
+                        <div class="window-controls">
+                            <div class="window-button window-close"></div>
+                            <div class="window-button window-minimize"></div>
+                            <div class="window-button window-maximize"></div>
+                        </div>
+                        <div class="window-title">Trade Book Ledge</div>
+                    </div>
+                    <div class="window-content">
+                        <div class="project-window-content">
+                            <div class="project-header">
+                                <div class="project-icon"><i class="fas fa-laptop-code"></i></div>
+                                <h3 class="project-window-title">Trade Book Ledge</h3>
+                            </div>
+
+                            <p class="project-window-description">A SaaS (Software as a Service) product for business management, targeting middlemen traders with subscription-based access model.</p>
+
+                            <div class="project-files">
+                                <div class="project-file">
+                                    <div class="file-icon"><i class="fas fa-file-code"></i></div>
+                                    <div class="file-name">index.html</div>
+                                </div>
+                                <div class="project-file">
+                                    <div class="file-icon"><i class="fab fa-react"></i></div>
+                                    <div class="file-name">App.tsx</div>
+                                </div>
+                                <div class="project-file">
+                                    <div class="file-icon"><i class="fas fa-database"></i></div>
+                                    <div class="file-name">schema.sql</div>
+                                </div>
+                                <div class="project-file">
+                                    <div class="file-icon"><i class="fas fa-file-alt"></i></div>
+                                    <div class="file-name">README.md</div>
+                                </div>
+                                <div class="project-file">
+                                    <div class="file-icon"><i class="fas fa-cogs"></i></div>
+                                    <div class="file-name">config.json</div>
+                                </div>
+                            </div>
+
                             <ul class="project-features">
                                 <li>Leveraged no-code platforms and AI tools (ChatGPT, Claude) to rapidly build a scalable cloud solution</li>
                                 <li>Created a complete SaaS ecosystem with web application (Vite, React, TypeScript)</li>
                                 <li>Integrated with Supabase for secure user authentication and data management</li>
                             </ul>
-                            <div class="project-tech">
-                                <span class="tech-tag">React</span>
-                                <span class="tech-tag">TypeScript</span>
-                                <span class="tech-tag">Vite</span>
-                                <span class="tech-tag">Supabase</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/nrenx/Trade-Book-Ledge" target="_blank" class="project-link github"><i class="fab fa-github"></i> GitHub</a>
-                                <a href="https://nrenx.github.io/Trade-Book-Ledge/" target="_blank" class="project-link demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                            </div>
-                        </div>
-                        <div class="project-image-container">
-                            <div class="project-image-placeholder">
-                                <i class="fas fa-laptop-code"></i>
+
+                            <div class="project-window-footer">
+                                <div class="project-tech">
+                                    <span class="tech-tag">React</span>
+                                    <span class="tech-tag">TypeScript</span>
+                                    <span class="tech-tag">Vite</span>
+                                    <span class="tech-tag">Supabase</span>
+                                </div>
+
+                                <div class="project-links">
+                                    <a href="https://github.com/nrenx/Trade-Book-Ledge" target="_blank" class="project-link github"><i class="fab fa-github"></i> GitHub</a>
+                                    <a href="https://nrenx.github.io/Trade-Book-Ledge/" target="_blank" class="project-link demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Project 2 -->
-                    <div class="project-card">
-                        <div class="project-content">
-                            <h3 class="project-title">NBKRIST Student Portal</h3>
-                            <p class="project-description">A student portal featuring academic information access, attendance tracking, and exam results.</p>
+                <!-- NBKRIST Student Portal Project Window -->
+                <div class="macos-window" id="nbkrist-portal-window">
+                    <div class="window-titlebar">
+                        <div class="window-controls">
+                            <div class="window-button window-close"></div>
+                            <div class="window-button window-minimize"></div>
+                            <div class="window-button window-maximize"></div>
+                        </div>
+                        <div class="window-title">NBKRIST Student Portal</div>
+                    </div>
+                    <div class="window-content">
+                        <div class="project-window-content">
+                            <div class="project-header">
+                                <div class="project-icon"><i class="fas fa-university"></i></div>
+                                <h3 class="project-window-title">NBKRIST Student Portal</h3>
+                            </div>
+
+                            <p class="project-window-description">A student portal featuring academic information access, attendance tracking, and exam results.</p>
+
+                            <div class="project-files">
+                                <div class="project-file">
+                                    <div class="file-icon"><i class="fas fa-file-code"></i></div>
+                                    <div class="file-name">index.html</div>
+                                </div>
+                                <div class="project-file">
+                                    <div class="file-icon"><i class="fab fa-css3"></i></div>
+                                    <div class="file-name">styles.css</div>
+                                </div>
+                                <div class="project-file">
+                                    <div class="file-icon"><i class="fab fa-js"></i></div>
+                                    <div class="file-name">main.js</div>
+                                </div>
+                                <div class="project-file">
+                                    <div class="file-icon"><i class="fas fa-table"></i></div>
+                                    <div class="file-name">attendance.js</div>
+                                </div>
+                                <div class="project-file">
+                                    <div class="file-icon"><i class="fas fa-graduation-cap"></i></div>
+                                    <div class="file-name">results.js</div>
+                                </div>
+                            </div>
+
                             <ul class="project-features">
                                 <li>Developed using AI tools and no-code approaches</li>
                                 <li>Integrated modern technologies (Vite, React, Tailwind CSS) and Supabase backend</li>
                                 <li>Created responsive design and automated deployment to GitHub Pages</li>
                             </ul>
-                            <div class="project-tech">
-                                <span class="tech-tag">React</span>
-                                <span class="tech-tag">Tailwind CSS</span>
-                                <span class="tech-tag">Supabase</span>
-                                <span class="tech-tag">GitHub Pages</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/nrenx/nbkrist-student-portal.git" target="_blank" class="project-link github"><i class="fab fa-github"></i> GitHub</a>
-                                <a href="https://nbkrstudenthub.me/" target="_blank" class="project-link demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                            </div>
-                        </div>
-                        <div class="project-image-container">
-                            <div class="project-image-placeholder">
-                                <i class="fas fa-university"></i>
+
+                            <div class="project-window-footer">
+                                <div class="project-tech">
+                                    <span class="tech-tag">React</span>
+                                    <span class="tech-tag">Tailwind CSS</span>
+                                    <span class="tech-tag">Supabase</span>
+                                    <span class="tech-tag">GitHub Pages</span>
+                                </div>
+
+                                <div class="project-links">
+                                    <a href="https://github.com/nrenx/nbkrist-student-portal.git" target="_blank" class="project-link github"><i class="fab fa-github"></i> GitHub</a>
+                                    <a href="https://nbkrstudenthub.me/" target="_blank" class="project-link demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- More Projects Link -->
-                    <div class="more-projects">
-                        <a href="https://github.com/nrenx" target="_blank" class="more-projects-link">
-                            <i class="fab fa-github"></i>
-                            <span>More projects on GitHub</span>
-                        </a>
+                <!-- More Projects Window -->
+                <div class="macos-window" id="more-projects-window">
+                    <div class="window-titlebar">
+                        <div class="window-controls">
+                            <div class="window-button window-close"></div>
+                            <div class="window-button window-minimize"></div>
+                            <div class="window-button window-maximize"></div>
+                        </div>
+                        <div class="window-title">More Projects</div>
+                    </div>
+                    <div class="window-content">
+                        <div class="project-window-content">
+                            <div class="project-header">
+                                <div class="project-icon"><i class="fas fa-folder-open"></i></div>
+                                <h3 class="project-window-title">More Projects</h3>
+                            </div>
+
+                            <p class="project-window-description">Check out my GitHub profile for more projects and code samples.</p>
+
+                            <div class="project-window-footer">
+                                <div class="project-links">
+                                    <a href="https://github.com/nrenx" target="_blank" class="project-link github">
+                                        <i class="fab fa-github"></i> Visit GitHub Profile
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
