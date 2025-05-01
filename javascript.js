@@ -269,6 +269,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Add event listeners to the "Get in Touch" and "View Projects" buttons
   const getInTouchButton = document.querySelector(".get-in-touch");
   const viewProjectsButton = document.querySelector(".view-projects");
+  const scrollIndicator = document.querySelector(".scroll-indicator");
 
   if (getInTouchButton) {
     getInTouchButton.addEventListener("click", function() {
@@ -279,6 +280,25 @@ document.addEventListener("DOMContentLoaded", function () {
   if (viewProjectsButton) {
     viewProjectsButton.addEventListener("click", function() {
       scrollToSection("projects");
+    });
+  }
+
+  // Add functionality to the scroll indicator
+  if (scrollIndicator) {
+    scrollIndicator.addEventListener("click", function() {
+      // Scroll to the about section when clicked
+      scrollToSection("about");
+    });
+
+    // Hide scroll indicator when user scrolls down
+    window.addEventListener("scroll", function() {
+      if (window.scrollY > 100) {
+        scrollIndicator.style.opacity = "0";
+        scrollIndicator.style.pointerEvents = "none";
+      } else {
+        scrollIndicator.style.opacity = "";
+        scrollIndicator.style.pointerEvents = "";
+      }
     });
   }
 
