@@ -427,11 +427,11 @@ body.dark-theme .logo-svg {
 }
 
 .switch input:checked ~ label .bulb .sparks .spark2 {
-  animation: spark2 2.4s ease-in-out 0.4s;
+  animation: spark2 2.4s ease-in-out 0.4s infinite;
 }
 
 .switch input:checked ~ label .bulb .sparks .spark3 {
-  animation: spark3 2s ease-in-out 0.9s;
+  animation: spark3 2s ease-in-out 0.9s infinite;
 }
 
 .switch input:checked ~ label .bulb .sparks .spark4 {
