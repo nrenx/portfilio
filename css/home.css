@@ -31,7 +31,7 @@
 .text-container {
   width: 55%;
   margin-right: 20px;
-  padding-left: 20px;
+  padding-left: 130px; /* Left padding for main content */
   position: relative;
   z-index: 1;
 }
@@ -188,8 +188,10 @@
 /* Button Styles */
 .button-container {
   display: flex;
-  gap: 20px;
+  gap: 20px; /* Reduced for better alignment */
   margin-top: 30px;
+  margin-left: 0; /* Reset negative margin */
+  padding-left: 100px; /* Reduced padding to move buttons more to the left */
 }
 
 .button {
@@ -251,30 +253,40 @@
 /* Social Icons Styles */
 .social-icons {
   display: flex;
-  gap: 15px;
-  margin-top: 30px;
-  justify-content: flex-start; /* Align icons to the left */
+  gap: 30px; /* Increased gap between icons for better spacing */
+  margin-top: 60px; /* Further increased margin to move icons down */
+  margin-left: 0; /* Align with the main content */
+  padding-left: 100px; /* Reduced padding to match the button container */
+  width: 55%; /* Match with text-container width */
+  justify-content: flex-start; /* Align to the left of the container */
+  padding-right: 20px; /* Add some right padding */
+  transform: translateX(0); /* No horizontal offset for better alignment with main content */
+  position: relative; /* Add position relative for potential absolute positioning */
 }
 
 .social-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  background-color: hsla(var(--muted), 0.3);
+  width: 45px; /* Increased size for better visibility */
+  height: 45px; /* Increased size for better visibility */
+  background-color: hsla(var(--muted), 0.2); /* Lighter background for minimalistic look */
   color: hsl(var(--foreground));
   border-radius: 50%;
-  font-size: 1.2rem;
+  font-size: 1.4rem; /* Increased icon size */
   transition: all 0.3s ease;
   text-decoration: none;
+  margin-right: 0; /* Remove right margin as we're using gap in the parent */
+  border: 1px solid transparent; /* Transparent border that will show on hover */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
 }
 
 .social-icon:hover {
   transform: translateY(-5px);
   background-color: hsl(var(--primary));
   color: hsl(var(--primary-foreground));
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  border-color: hsl(var(--primary)); /* Show border on hover */
 }
 
 /* Specific styles for different social icons */
@@ -351,7 +363,7 @@ body.dark-theme .social-icon:hover {
   .introduction .text-container {
     width: 100%;
     margin-right: 0;
-    padding-left: 0;
+    padding-left: 5px; /* Small padding for mobile view */
     text-align: center;
   }
 
@@ -376,11 +388,18 @@ body.dark-theme .social-icon:hover {
   /* Center buttons on mobile */
   .button-container {
     justify-content: center;
+    margin-left: 0; /* Reset margin for mobile */
+    padding-left: 0; /* Reset padding for mobile */
   }
 
-  /* Center social icons on mobile */
+  /* Align social icons with content on mobile */
   .social-icons {
     justify-content: center;
+    margin-top: 50px; /* Maintain increased spacing on mobile */
+    margin-left: 0;
+    padding-left: 0; /* Remove padding completely for mobile to ensure proper centering */
+    width: 100%; /* Full width on mobile */
+    transform: translateX(0); /* Reset the transform on mobile */
   }
 }
 
@@ -413,6 +432,7 @@ body.dark-theme .social-icon:hover {
     max-width: 250px;
     margin-left: auto;
     margin-right: auto;
+    padding-left: 0; /* Ensure no padding on small screens */
   }
 
   .morph-container {
@@ -420,9 +440,14 @@ body.dark-theme .social-icon:hover {
     height: 200px;
   }
 
+  .social-icons {
+    margin-top: 40px; /* Slightly less spacing for smallest screens but still increased */
+  }
+
   .social-icon {
-    width: 35px;
-    height: 35px;
-    font-size: 1rem;
+    width: 38px; /* Slightly larger than original mobile size */
+    height: 38px; /* Slightly larger than original mobile size */
+    font-size: 1.1rem;
+    margin-right: 0;
   }
 }
