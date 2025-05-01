@@ -458,6 +458,94 @@
   transition: all 0.2s ease;
 }
 
+/* Dock Item Bounce Animation */
+.dock-bounce {
+  animation: dock-bounce 0.8s ease;
+}
+
+@keyframes dock-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-15px) scale(1.1);
+  }
+  40% {
+    transform: translateY(-7px) scale(1.05);
+  }
+  60% {
+    transform: translateY(-15px) scale(1.1);
+  }
+  80% {
+    transform: translateY(-5px) scale(1.03);
+  }
+}
+
+/* Dock Tooltip Styles */
+.dock-tooltip {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.dock-item {
+  position: relative;
+}
+
+.dock-item:hover .dock-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-5px);
+}
+
+/* Special styling for clickable dock items */
+.dock-item[data-tooltip="GitHub"],
+.dock-item[data-tooltip="LinkedIn"],
+.dock-item[data-tooltip="Calculator"] {
+  cursor: pointer;
+}
+
+.dock-item[data-tooltip="GitHub"]:hover,
+.dock-item[data-tooltip="LinkedIn"]:hover {
+  transform: translateY(-8px) scale(1.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.dock-item[data-tooltip="Calculator"] {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.dock-item[data-tooltip="Calculator"]:hover {
+  transform: translateY(-8px) scale(1.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Add a small triangle/arrow to the tooltip */
+.dock-tooltip:after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid rgba(0, 0, 0, 0.7);
+}
+
 /* Window Dragging Style */
 .macos-window.dragging {
   opacity: 0.9;
@@ -503,6 +591,12 @@
     font-size: 18px;
   }
 
+  .dock-tooltip {
+    top: -25px;
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+
   .project-files {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   }
@@ -538,6 +632,12 @@
     height: 30px;
     font-size: 16px;
     margin: 0 3px;
+  }
+
+  .dock-tooltip {
+    top: -22px;
+    font-size: 10px;
+    padding: 2px 5px;
   }
 
   .window-titlebar {

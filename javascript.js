@@ -804,11 +804,12 @@ function initMacOSInterface() {
     });
   });
 
-  // Add dock hover effect
+  // Add dock hover effect with tooltips
   const dockItems = document.querySelectorAll('.dock-item');
 
   dockItems.forEach(item => {
     item.addEventListener('mouseenter', () => {
+      // Apply neighbor effect to other dock items
       dockItems.forEach(otherItem => {
         if (otherItem !== item) {
           otherItem.classList.add('dock-item-neighbor');
@@ -817,9 +818,74 @@ function initMacOSInterface() {
     });
 
     item.addEventListener('mouseleave', () => {
+      // Remove neighbor effect from all dock items
       dockItems.forEach(otherItem => {
         otherItem.classList.remove('dock-item-neighbor');
       });
+    });
+
+    // Add click functionality for GitHub and LinkedIn icons
+    item.addEventListener('click', () => {
+      const tooltip = item.getAttribute('data-tooltip');
+
+      // Handle special cases for GitHub and LinkedIn
+      if (tooltip === 'GitHub') {
+        window.open('https://github.com/nrenx', '_blank');
+      } else if (tooltip === 'LinkedIn') {
+        window.open('https://linkedin.com/in/bollineninarendrachowdary', '_blank');
+      } else if (tooltip === 'Calculator') {
+        // You could implement a calculator functionality here
+        // For now, let's just add a bounce animation
+        item.classList.add('dock-bounce');
+        setTimeout(() => {
+          item.classList.remove('dock-bounce');
+        }, 800);
+      }
+    });
+
+    // Add touch support for mobile devices
+    item.addEventListener('touchstart', (e) => {
+      // Don't prevent default for GitHub and LinkedIn to allow clicks
+      const tooltip = item.getAttribute('data-tooltip');
+      if (tooltip !== 'GitHub' && tooltip !== 'LinkedIn') {
+        e.preventDefault();
+      }
+
+      // First remove all active tooltips
+      dockItems.forEach(otherItem => {
+        const otherTooltip = otherItem.querySelector('.dock-tooltip');
+        if (otherTooltip) {
+          otherTooltip.style.opacity = '0';
+          otherTooltip.style.visibility = 'hidden';
+        }
+        otherItem.classList.remove('dock-item-neighbor');
+      });
+
+      // Then show this tooltip
+      const tooltipElement = item.querySelector('.dock-tooltip');
+      if (tooltipElement) {
+        tooltipElement.style.opacity = '1';
+        tooltipElement.style.visibility = 'visible';
+        tooltipElement.style.transform = 'translateX(-50%) translateY(-5px)';
+
+        // Add neighbor effect
+        dockItems.forEach(otherItem => {
+          if (otherItem !== item) {
+            otherItem.classList.add('dock-item-neighbor');
+          }
+        });
+
+        // Hide tooltip after a delay
+        setTimeout(() => {
+          tooltipElement.style.opacity = '0';
+          tooltipElement.style.visibility = 'hidden';
+
+          // Remove neighbor effect
+          dockItems.forEach(otherItem => {
+            otherItem.classList.remove('dock-item-neighbor');
+          });
+        }, 1500);
+      }
     });
   });
 
