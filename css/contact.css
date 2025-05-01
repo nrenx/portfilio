@@ -151,6 +151,44 @@
   color: hsl(var(--primary-foreground));
 }
 
+/* Specific classes for different social icons */
+.contact-info .social-icon.linkedin {
+  background-color: rgba(10, 102, 194, 0.1);
+  color: #0A66C2;
+}
+
+.contact-info .social-icon.github {
+  background-color: rgba(36, 41, 46, 0.1);
+  color: #24292E;
+}
+
+.contact-info .social-icon.twitter {
+  background-color: rgba(29, 161, 242, 0.1);
+  color: #1DA1F2;
+}
+
+/* Dark mode styles for social icons */
+body.dark-theme .contact-info .social-icon.linkedin {
+  background-color: rgba(10, 102, 194, 0.2);
+  color: #0A66C2;
+}
+
+body.dark-theme .contact-info .social-icon.github {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+body.dark-theme .contact-info .social-icon.twitter {
+  background-color: rgba(29, 161, 242, 0.2);
+  color: #1DA1F2;
+}
+
+/* Hover effects for all social icons in dark mode */
+body.dark-theme .contact-info .social-icon:hover {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
 .resume-button {
   display: flex;
   align-items: center;
