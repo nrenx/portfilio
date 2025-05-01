@@ -69,6 +69,11 @@ document.addEventListener("DOMContentLoaded", function () {
         link.classList.remove("active");
       }
     });
+
+    // Update scroll indicator visibility when section changes
+    if (typeof updateScrollIndicatorVisibility === 'function') {
+      updateScrollIndicatorVisibility();
+    }
   }
 
   // Improved scroll to section for mobile devices
@@ -262,7 +267,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
   navLinks.forEach(link => {
     link.addEventListener("click", () => {
-      scrollToSection(link.dataset.section);
+      const sectionId = link.dataset.section;
+      scrollToSection(sectionId);
+
+      // Special case for home section to ensure scroll indicator appears
+      if (sectionId === "home" && typeof updateScrollIndicatorVisibility === 'function') {
+        // Multiple timeouts to ensure it catches after scrolling completes
+        setTimeout(updateScrollIndicatorVisibility, 100);
+        setTimeout(updateScrollIndicatorVisibility, 500);
+        setTimeout(updateScrollIndicatorVisibility, 1000);
+      }
     });
   });
 
@@ -283,23 +297,74 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // Function to handle scroll indicator click/touch
+  function handleScrollIndicatorClick(e) {
+    e.preventDefault();
+    // Scroll to the about section when clicked
+    scrollToSection("about");
+  }
+
+  function handleScrollIndicatorTouchStart(e) {
+    // Prevent default to avoid any unwanted behaviors
+    e.preventDefault();
+  }
+
+  // Function to update scroll indicator visibility
+  let updateScrollIndicatorVisibility;
+
   // Add functionality to the scroll indicator
   if (scrollIndicator) {
-    scrollIndicator.addEventListener("click", function() {
-      // Scroll to the about section when clicked
-      scrollToSection("about");
-    });
+    // Add click event for desktop
+    scrollIndicator.addEventListener("click", handleScrollIndicatorClick);
 
-    // Hide scroll indicator when user scrolls down
-    window.addEventListener("scroll", function() {
-      if (window.scrollY > 100) {
+    // Add touch events for mobile devices
+    scrollIndicator.addEventListener("touchstart", handleScrollIndicatorTouchStart, { passive: false });
+    scrollIndicator.addEventListener("touchend", handleScrollIndicatorClick, { passive: false });
+
+    // Define the function to update scroll indicator visibility
+    updateScrollIndicatorVisibility = function() {
+      const homeSection = document.getElementById("home");
+      if (!homeSection || !scrollIndicator) return;
+
+      const homeSectionRect = homeSection.getBoundingClientRect();
+      const isHomeVisible = homeSectionRect.top <= 100 && homeSectionRect.bottom > 0;
+      const isAtTop = window.scrollY < 100;
+      const isHomeActive = activeSection === "home";
+
+      if ((isHomeVisible && isAtTop) || isHomeActive) {
+        scrollIndicator.style.opacity = "0.8";
+        scrollIndicator.style.pointerEvents = "auto";
+      } else {
         scrollIndicator.style.opacity = "0";
         scrollIndicator.style.pointerEvents = "none";
-      } else {
-        scrollIndicator.style.opacity = "";
-        scrollIndicator.style.pointerEvents = "";
       }
+    };
+
+    // Hide scroll indicator when user scrolls down or is not on the home section
+    window.addEventListener("scroll", updateScrollIndicatorVisibility);
+
+    // Also update visibility when clicking on navigation links
+    navLinks.forEach(link => {
+      link.addEventListener("click", function() {
+        // Short delay to allow scrolling to complete
+        setTimeout(updateScrollIndicatorVisibility, 100);
+      });
     });
+
+    // Make sure the scroll indicator is visible on page load
+    setTimeout(function() {
+      updateScrollIndicatorVisibility();
+    }, 2000); // Show after landing animation completes
+
+    // Add event listener for the home navigation link to ensure scroll indicator appears
+    const homeLink = document.querySelector('.nav-link[data-section="home"]');
+    if (homeLink) {
+      homeLink.addEventListener("click", function() {
+        setTimeout(function() {
+          updateScrollIndicatorVisibility();
+        }, 500);
+      });
+    }
   }
 
   // Initialize navbar state

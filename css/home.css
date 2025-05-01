@@ -342,15 +342,26 @@ body.dark-theme .social-icon:hover {
   align-items: center;
   cursor: pointer;
   z-index: 10;
-  opacity: 0.8;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  animation: fadeInUp 1.5s ease-in-out 1s forwards;
   opacity: 0;
+  transition: opacity 0.5s ease, transform 0.3s ease;
+  animation: fadeInUp 1.5s ease-in-out 1s forwards;
+  /* Make the touch target larger */
+  padding: 15px;
+  margin: -15px;
+  /* Ensure it's clickable */
+  pointer-events: auto;
+  /* Ensure it's visible on the homepage */
+  will-change: opacity, transform;
 }
 
 .scroll-indicator:hover {
   opacity: 1;
   transform: translateX(-50%) translateY(-5px);
+}
+
+.scroll-indicator:active {
+  opacity: 0.6;
+  transform: translateX(-50%) translateY(0);
 }
 
 .scroll-arrow {
@@ -379,6 +390,12 @@ body.dark-theme .social-icon:hover {
 .scroll-arrow:after {
   right: 0;
   transform: rotate(-45deg);
+}
+
+/* Dark mode styles for scroll indicator */
+body.dark-theme .scroll-arrow:before,
+body.dark-theme .scroll-arrow:after {
+  background-color: hsl(var(--primary));
 }
 
 .scroll-text {
@@ -486,7 +503,7 @@ body.dark-theme .social-icon:hover {
 
   /* Adjust scroll indicator for mobile */
   .scroll-indicator {
-    bottom: 15px;
+    bottom: 20px;
   }
 
   .scroll-arrow {
@@ -555,7 +572,7 @@ body.dark-theme .social-icon:hover {
 
   /* Further adjust scroll indicator for smallest screens */
   .scroll-indicator {
-    bottom: 10px;
+    bottom: 15px;
   }
 
   .scroll-arrow {
