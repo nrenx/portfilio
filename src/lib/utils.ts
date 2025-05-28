@@ -11,6 +11,7 @@ export function getAssetPath(path: string): string {
   const isGithubPages = process.env.GITHUB_PAGES === 'true';
   const isProduction = process.env.NODE_ENV === 'production';
 
+  // For GitHub Pages, we need the repository name as base path
   const basePath = isProduction && isGithubPages ? '/portfilio' : '';
 
   // Remove leading slash if present to avoid double slashes

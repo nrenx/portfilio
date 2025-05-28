@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Code, Github, Linkedin, Twitter } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn, getRuntimeAssetPath } from '@/lib/utils';
 import { ScrollIndicator } from '@/components/interactive/scroll-indicator';
 import { SocialIcons } from '@/components/common/social-icons';
 import { FILE_PATHS } from '@/lib/constants';
@@ -13,6 +13,39 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ className }: HeroSectionProps) {
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [profileImagePath, setProfileImagePath] = useState('');
+  const [profileHoverImagePath, setProfileHoverImagePath] = useState('');
+
+  useEffect(() => {
+    // Set image paths on client side to ensure proper GitHub Pages compatibility
+    const profilePath = getRuntimeAssetPath('/assets/images/Finding joy in the simplicity of the sea ............beach bridge ocean smile sunny monument collage sunset sunrise travelphotography travel.jpg');
+    const profileHoverPath = getRuntimeAssetPath('/assets/images/Finding paradise wherever the waves take me. . . . . . . . . . . . . . . .beachbound beachlife beach beachdreaming ocean paradise wavesfordays explore rainyday shorelineadventures seasideescape beach.jpg');
+
+    setProfileImagePath(profilePath);
+    setProfileHoverImagePath(profileHoverPath);
+
+    // Preload images
+    const img1 = new Image();
+    const img2 = new Image();
+    let loadedCount = 0;
+
+    const handleImageLoad = () => {
+      loadedCount++;
+      if (loadedCount === 2) {
+        setImagesLoaded(true);
+      }
+    };
+
+    img1.onload = handleImageLoad;
+    img2.onload = handleImageLoad;
+    img1.onerror = handleImageLoad; // Still mark as "loaded" even if error
+    img2.onerror = handleImageLoad;
+
+    img1.src = profilePath;
+    img2.src = profileHoverPath;
+  }, []);
+
   const handleGetInTouch = () => {
     const contactSection = document.getElementById('contact');
     if (contactSection) {
@@ -87,7 +120,7 @@ export function HeroSection({ className }: HeroSectionProps) {
                 <div
                   className="background-image absolute top-0 left-0 w-full h-full object-cover z-[1] transition-opacity duration-500 ease-in-out group-hover:opacity-0"
                   style={{
-                    backgroundImage: `url('${FILE_PATHS.images.profile}')`,
+                    backgroundImage: profileImagePath ? `url('${profileImagePath}')` : 'none',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
@@ -98,12 +131,19 @@ export function HeroSection({ className }: HeroSectionProps) {
                 <div
                   className="second-image absolute top-0 left-0 w-full h-full object-cover z-[2] opacity-0 transition-opacity duration-500 ease-in-out group-hover:opacity-100"
                   style={{
-                    backgroundImage: `url('${FILE_PATHS.images.profileHover}')`,
+                    backgroundImage: profileHoverImagePath ? `url('${profileHoverImagePath}')` : 'none',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
                   }}
                 />
+
+                {/* Loading indicator or fallback */}
+                {!imagesLoaded && (
+                  <div className="absolute inset-0 flex items-center justify-center z-[3]">
+                    <div className="text-6xl animate-pulse">👨‍💻</div>
+                  </div>
+                )}
             </motion.div>
           </motion.div>
 
