@@ -6,7 +6,7 @@ import { Folder, X, Minus, Square } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { MacOSWindow } from './macos-window';
 import { MacOSDock } from './macos-dock';
-import { projectsByCategory } from '@/data/projects';
+import { projects } from '@/data/projects';
 import { FILE_PATHS } from '@/lib/constants';
 
 interface MacOSDesktopProps {
@@ -27,9 +27,11 @@ interface OpenWindow {
 interface DesktopFolder {
   id: string;
   name: string;
-  projects: any[];
+  project?: any; // Single project for individual folders
+  projects?: any[]; // Array for special folders like "More Projects"
   position: { x: number; y: number };
   isDragging?: boolean;
+  type: 'project' | 'special'; // Type to distinguish between project and special folders
 }
 
 interface WallpaperInfo {
@@ -46,55 +48,99 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
   const [availableWallpapers, setAvailableWallpapers] = useState<WallpaperInfo[]>([]);
   const [showWallpaperSelector, setShowWallpaperSelector] = useState(false);
 
-  // Initialize folders with optimized responsive horizontal layout
+  // Initialize folders with individual project folders
   const getInitialFolderPositions = () => {
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     const baseY = 80; // Top margin
     const spacing = isMobile ? 120 : 130; // Optimized horizontal spacing for better visual density
     const startX = isMobile ? 50 : 100; // Responsive left margin
 
+    // Find specific projects for individual folders
+    const tradeBookLedge = projects.find(p => p.id === 'saas-dashboard');
+    const nbkristPortal = projects.find(p => p.id === 'mobile-fitness-app');
+    const portfolioWebsite = projects.find(p => p.id === 'portfolio-website');
+    const aiAutomationInternship = projects.find(p => p.id === 'ai-automation-internship');
+
+    // Get remaining projects for "More Projects" folder
+    const featuredProjectIds = ['saas-dashboard', 'mobile-fitness-app', 'portfolio-website', 'ai-automation-internship'];
+    const remainingProjects = projects.filter(p => !featuredProjectIds.includes(p.id));
+
     if (isMobile) {
       // Stack vertically on mobile for better usability
       return [
         {
-          id: 'web-apps',
-          name: 'Web Apps',
-          projects: projectsByCategory.web,
+          id: 'trade-book-ledge',
+          name: 'Trade Book Ledge',
+          project: tradeBookLedge,
           position: { x: startX, y: baseY },
+          type: 'project' as const,
         },
         {
-          id: 'mobile-apps',
-          name: 'Mobile Apps',
-          projects: projectsByCategory.mobile,
+          id: 'nbkrist-portal',
+          name: 'NBKRIST Student Portal',
+          project: nbkristPortal,
           position: { x: startX, y: baseY + 120 },
+          type: 'project' as const,
         },
         {
-          id: 'automation',
-          name: 'Automation',
-          projects: projectsByCategory.automation,
+          id: 'ai-automation-internship',
+          name: 'AI Automation Internship',
+          project: aiAutomationInternship,
           position: { x: startX, y: baseY + 240 },
+          type: 'project' as const,
+        },
+        {
+          id: 'portfolio-website',
+          name: 'Interactive Portfolio Website',
+          project: portfolioWebsite,
+          position: { x: startX, y: baseY + 360 },
+          type: 'project' as const,
+        },
+        {
+          id: 'more-projects',
+          name: 'More Projects',
+          projects: remainingProjects,
+          position: { x: startX, y: baseY + 480 },
+          type: 'special' as const,
         },
       ];
     }
 
     return [
       {
-        id: 'web-apps',
-        name: 'Web Apps',
-        projects: projectsByCategory.web,
+        id: 'trade-book-ledge',
+        name: 'Trade Book Ledge',
+        project: tradeBookLedge,
         position: { x: startX, y: baseY },
+        type: 'project' as const,
       },
       {
-        id: 'mobile-apps',
-        name: 'Mobile Apps',
-        projects: projectsByCategory.mobile,
+        id: 'nbkrist-portal',
+        name: 'NBKRIST Student Portal',
+        project: nbkristPortal,
         position: { x: startX + spacing, y: baseY },
+        type: 'project' as const,
       },
       {
-        id: 'automation',
-        name: 'Automation',
-        projects: projectsByCategory.automation,
+        id: 'ai-automation-internship',
+        name: 'AI Automation Internship',
+        project: aiAutomationInternship,
         position: { x: startX + spacing * 2, y: baseY },
+        type: 'project' as const,
+      },
+      {
+        id: 'portfolio-website',
+        name: 'Interactive Portfolio Website',
+        project: portfolioWebsite,
+        position: { x: startX + spacing * 3, y: baseY },
+        type: 'project' as const,
+      },
+      {
+        id: 'more-projects',
+        name: 'More Projects',
+        projects: remainingProjects,
+        position: { x: startX + spacing * 4, y: baseY },
+        type: 'special' as const,
       },
     ];
   };
@@ -230,52 +276,68 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
       return;
     }
 
-    const newWindow: OpenWindow = {
-      id: folder.id,
-      title: folder.name,
-      content: (
-        <div className="p-6 h-full overflow-auto">
-          <h3 className="text-lg font-semibold mb-4">{folder.name}</h3>
-          <div className="grid gap-4">
-            {folder.projects.map((project) => (
-              <motion.div
-                key={project.id}
-                className="p-4 bg-muted/50 rounded-lg border border-border/50 hover:border-primary/30 transition-colors cursor-pointer"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => openProjectWindow(project)}
-              >
-                <h4 className="font-medium text-foreground mb-2">{project.title}</h4>
-                <p className="text-sm text-muted-foreground mb-3">{project.description}</p>
-                <div className="flex flex-wrap gap-1">
-                  {project.technologies.slice(0, 3).map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                  {project.technologies.length > 3 && (
-                    <span className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded-md">
-                      +{project.technologies.length - 3} more
-                    </span>
-                  )}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      ),
-      position: { x: 200 + Math.random() * 100, y: 100 + Math.random() * 50 },
-      size: { width: 500, height: 400 },
-      isMinimized: false,
-      isMaximized: false,
-      zIndex: nextZIndex,
-    };
+    // Handle individual project folders
+    if (folder.type === 'project' && folder.project) {
+      openProjectWindow(folder.project);
+      return;
+    }
 
-    setOpenWindows(prev => [...prev, newWindow]);
-    setNextZIndex(prev => prev + 1);
+    // Handle special folders (like "More Projects")
+    if (folder.type === 'special' && folder.projects) {
+      // For "More Projects" folder, open GitHub profile
+      if (folder.id === 'more-projects') {
+        window.open('https://github.com/nrenx', '_blank');
+        return;
+      }
+
+      // Default behavior for other special folders
+      const newWindow: OpenWindow = {
+        id: folder.id,
+        title: folder.name,
+        content: (
+          <div className="p-6 h-full overflow-auto">
+            <h3 className="text-lg font-semibold mb-4">{folder.name}</h3>
+            <div className="grid gap-4">
+              {folder.projects.map((project) => (
+                <motion.div
+                  key={project.id}
+                  className="p-4 bg-muted/50 rounded-lg border border-border/50 hover:border-primary/30 transition-colors cursor-pointer"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => openProjectWindow(project)}
+                >
+                  <h4 className="font-medium text-foreground mb-2">{project.title}</h4>
+                  <p className="text-sm text-muted-foreground mb-3">{project.description}</p>
+                  <div className="flex flex-wrap gap-1">
+                    {project.technologies.slice(0, 3).map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                    {project.technologies.length > 3 && (
+                      <span className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded-md">
+                        +{project.technologies.length - 3} more
+                      </span>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        ),
+        position: { x: 200 + Math.random() * 100, y: 100 + Math.random() * 50 },
+        size: { width: 500, height: 400 },
+        isMinimized: false,
+        isMaximized: false,
+        zIndex: nextZIndex,
+      };
+
+      setOpenWindows(prev => [...prev, newWindow]);
+      setNextZIndex(prev => prev + 1);
+    }
   }, [openWindows, nextZIndex]);
 
   const openProjectWindow = useCallback((project: any) => {

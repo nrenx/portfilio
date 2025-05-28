@@ -38,9 +38,77 @@ export function HeroSection({ className }: HeroSectionProps) {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="flex flex-col lg:flex-row items-center justify-between min-h-[calc(100vh-4rem)] lg:min-h-[calc(100vh-5rem)] gap-8">
+          {/* Image Container - Mobile First */}
+          <motion.div
+            className="image-container flex-shrink-0 flex justify-center lg:justify-center order-1 lg:order-2"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.4 }}
+          >
+            <motion.div
+              className="morph-container group relative w-[300px] h-[300px] overflow-hidden bg-cover bg-no-repeat bg-center border-4 border-[#2d2e32]"
+                style={{
+                  borderRadius: '60% 40% 30% 70%/60% 30% 70% 40%',
+                  backgroundImage: `url('data:image/svg+xml,${encodeURIComponent(`
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+                      <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                          <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                        </linearGradient>
+                      </defs>
+                      <rect width="300" height="300" fill="url(#grad1)" />
+                      <circle cx="150" cy="120" r="40" fill="rgba(255,255,255,0.1)" />
+                      <ellipse cx="150" cy="200" rx="60" ry="80" fill="rgba(255,255,255,0.05)" />
+                      <text x="150" y="160" text-anchor="middle" fill="white" font-size="48">👨‍💻</text>
+                    </svg>
+                  `)}')`,
+                }}
+                animate={{
+                  borderRadius: [
+                    '60% 40% 30% 70%/60% 30% 70% 40%',
+                    '40% 60% 70% 30%/40% 70% 30% 60%',
+                    '30% 60% 70% 40%/50% 60% 30% 40%',
+                    '55% 45% 40% 60%/45% 30% 60% 55%',
+                    '60% 40% 30% 70%/60% 30% 70% 40%',
+                  ],
+                }}
+                transition={{
+                  duration: 8,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+                whileHover={{
+                  scale: 1.05,
+                }}
+              >
+                {/* Background Image */}
+                <div
+                  className="background-image absolute top-0 left-0 w-full h-full object-cover z-[1] transition-opacity duration-500 ease-in-out group-hover:opacity-0"
+                  style={{
+                    backgroundImage: `url('/assets/images/Finding joy in the simplicity of the sea ............beach bridge ocean smile sunny monument collage sunset sunrise travelphotography travel.jpg')`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                  }}
+                />
+
+                {/* Second Image - Shows on hover */}
+                <div
+                  className="second-image absolute top-0 left-0 w-full h-full object-cover z-[2] opacity-0 transition-opacity duration-500 ease-in-out group-hover:opacity-100"
+                  style={{
+                    backgroundImage: `url('/assets/images/Finding paradise wherever the waves take me. . . . . . . . . . . . . . . .beachbound beachlife beach beachdreaming ocean paradise wavesfordays explore rainyday shorelineadventures seasideescape beach.jpg')`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                  }}
+                />
+            </motion.div>
+          </motion.div>
+
           {/* Text Container */}
           <motion.div
-            className="text-container space-y-6 flex-1 max-w-2xl"
+            className="text-container space-y-6 flex-1 max-w-2xl order-2 lg:order-1"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -164,73 +232,7 @@ export function HeroSection({ className }: HeroSectionProps) {
             </motion.div>
           </motion.div>
 
-          {/* Image Container */}
-          <motion.div
-            className="image-container flex-shrink-0 flex justify-center lg:justify-center"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.4 }}
-          >
-            <motion.div
-              className="morph-container group relative w-[300px] h-[300px] overflow-hidden bg-cover bg-no-repeat bg-center border-4 border-[#2d2e32]"
-                style={{
-                  borderRadius: '60% 40% 30% 70%/60% 30% 70% 40%',
-                  backgroundImage: `url('data:image/svg+xml,${encodeURIComponent(`
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
-                      <defs>
-                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-                          <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
-                        </linearGradient>
-                      </defs>
-                      <rect width="300" height="300" fill="url(#grad1)" />
-                      <circle cx="150" cy="120" r="40" fill="rgba(255,255,255,0.1)" />
-                      <ellipse cx="150" cy="200" rx="60" ry="80" fill="rgba(255,255,255,0.05)" />
-                      <text x="150" y="160" text-anchor="middle" fill="white" font-size="48">👨‍💻</text>
-                    </svg>
-                  `)}')`,
-                }}
-                animate={{
-                  borderRadius: [
-                    '60% 40% 30% 70%/60% 30% 70% 40%',
-                    '40% 60% 70% 30%/40% 70% 30% 60%',
-                    '30% 60% 70% 40%/50% 60% 30% 40%',
-                    '55% 45% 40% 60%/45% 30% 60% 55%',
-                    '60% 40% 30% 70%/60% 30% 70% 40%',
-                  ],
-                }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-                whileHover={{
-                  scale: 1.05,
-                }}
-              >
-                {/* Background Image */}
-                <div
-                  className="background-image absolute top-0 left-0 w-full h-full object-cover z-[1] transition-opacity duration-500 ease-in-out group-hover:opacity-0"
-                  style={{
-                    backgroundImage: `url('/assets/images/Finding joy in the simplicity of the sea ............beach bridge ocean smile sunny monument collage sunset sunrise travelphotography travel.jpg')`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
-                  }}
-                />
 
-                {/* Second Image - Shows on hover */}
-                <div
-                  className="second-image absolute top-0 left-0 w-full h-full object-cover z-[2] opacity-0 transition-opacity duration-500 ease-in-out group-hover:opacity-100"
-                  style={{
-                    backgroundImage: `url('/assets/images/Finding paradise wherever the waves take me. . . . . . . . . . . . . . . .beachbound beachlife beach beachdreaming ocean paradise wavesfordays explore rainyday shorelineadventures seasideescape beach.jpg')`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
-                  }}
-                />
-            </motion.div>
-          </motion.div>
         </div>
       </div>
 

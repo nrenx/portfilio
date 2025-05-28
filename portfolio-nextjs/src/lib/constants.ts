@@ -162,25 +162,25 @@ export const SEO_CONFIG: SEOConfig = {
 export const SOCIAL_LINKS = [
   {
     platform: 'GitHub',
-    url: 'https://github.com/yourusername',
+    url: 'https://github.com/nrenx',
     icon: 'Github',
     label: 'GitHub Profile',
   },
   {
     platform: 'LinkedIn',
-    url: 'https://linkedin.com/in/yourusername',
+    url: 'https://linkedin.com/in/bollineninarendrachowdary',
     icon: 'Linkedin',
     label: 'LinkedIn Profile',
   },
   {
     platform: 'Twitter',
-    url: 'https://twitter.com/yourusername',
+    url: 'https://twitter.com/nrenx',
     icon: 'Twitter',
     label: 'Twitter Profile',
   },
   {
     platform: 'Email',
-    url: 'mailto:your.email@example.com',
+    url: 'mailto:narendrabollineni2002@gmail.com',
     icon: 'Mail',
     label: 'Send Email',
   },
