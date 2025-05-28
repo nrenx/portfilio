@@ -1,27 +1,34 @@
 import type { NextConfig } from "next";
 
+const isProd = process.env.NODE_ENV === 'production';
+const isGithubPages = process.env.GITHUB_PAGES === 'true';
+
 const nextConfig: NextConfig = {
+  // Enable static export for GitHub Pages
+  output: 'export',
+
+  // Disable image optimization for static export
+  images: {
+    unoptimized: true,
+  },
+
+  // Set base path for GitHub Pages (repository name)
+  basePath: isProd && isGithubPages ? '/portfilio' : '',
+
+  // Set asset prefix for GitHub Pages
+  assetPrefix: isProd && isGithubPages ? '/portfilio/' : '',
+
   // Enable experimental features
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
-  },
-
-  // Image optimization
-  images: {
-    formats: ['image/webp', 'image/avif'],
-    deviceSizes: [640, 768, 1024, 1280, 1536],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    domains: ['localhost'],
-    dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 
   // Performance optimizations
   compress: true,
   poweredByHeader: false,
 
-  // Asset optimization
-  assetPrefix: process.env.NODE_ENV === 'production' ? '' : '',
+  // Disable server-side features for static export
+  trailingSlash: true,
 
   // Webpack configuration
   webpack: (config, { dev, isServer }) => {
@@ -41,37 +48,7 @@ const nextConfig: NextConfig = {
     return config;
   },
 
-  // Headers for security and performance
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin',
-          },
-        ],
-      },
-      {
-        source: '/assets/(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-    ];
-  },
+
 };
 
 export default nextConfig;

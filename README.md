@@ -1,36 +1,181 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio Website
 
-## Getting Started
+A modern, interactive portfolio website built with Next.js 15, TypeScript, Tailwind CSS, and Framer Motion. Features a unique macOS-style interface with smooth animations and responsive design.
 
-First, run the development server:
+## 🚀 Live Demo
 
+Visit the live website: [https://nrenx.github.io/portfilio/](https://nrenx.github.io/portfilio/)
+
+## ✨ Features
+
+- **macOS-Style Interface**: Interactive desktop environment with draggable folders and windows
+- **Multi-Language Landing**: Animated greeting in multiple languages
+- **Dark/Light Theme**: Seamless theme switching with system preference detection
+- **Responsive Design**: Optimized for all devices and screen sizes
+- **Smooth Animations**: Powered by Framer Motion for fluid user experience
+- **Static Export**: Optimized for GitHub Pages deployment
+- **Modern Stack**: Built with Next.js 15, TypeScript, and Tailwind CSS
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4
+- **Animations**: Framer Motion
+- **UI Components**: shadcn/ui
+- **Icons**: Lucide React
+- **Deployment**: GitHub Pages with GitHub Actions
+
+## 🏃‍♂️ Getting Started
+
+### Prerequisites
+
+- Node.js 20 or later
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/nrenx/portfilio.git
+cd portfilio
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Run the development server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Learn More
+## 📦 Build Commands
 
-To learn more about Next.js, take a look at the following resources:
+- `npm run dev` - Start development server with Turbopack
+- `npm run build` - Build for production
+- `npm run build:github` - Build for GitHub Pages deployment
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚀 Deployment to GitHub Pages
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project is configured for automatic deployment to GitHub Pages using GitHub Actions.
 
-## Deploy on Vercel
+### Setup Instructions
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Fork or clone this repository**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. **Enable GitHub Pages**:
+   - Go to your repository settings
+   - Navigate to "Pages" section
+   - Set source to "GitHub Actions"
+
+3. **Configure repository secrets** (if needed):
+   - No additional secrets required for basic deployment
+
+4. **Push to main branch**:
+   - The GitHub Action will automatically build and deploy your site
+   - Your site will be available at `https://yourusername.github.io/portfilio/`
+
+### Manual Deployment
+
+If you prefer manual deployment:
+
+```bash
+# Build for GitHub Pages
+npm run build:github
+
+# The static files will be generated in the 'out' directory
+# Upload the contents of 'out' directory to your GitHub Pages branch
+```
+
+## 📁 Project Structure
+
+```
+├── .github/workflows/    # GitHub Actions workflows
+├── public/              # Static assets
+│   ├── assets/         # Images, fonts, resume
+│   ├── icons/          # App icons
+│   └── .nojekyll       # Disable Jekyll processing
+├── src/
+│   ├── app/            # Next.js app directory
+│   ├── components/     # React components
+│   ├── contexts/       # React contexts
+│   ├── data/          # Static data
+│   └── lib/           # Utilities and constants
+├── styles/            # Global styles
+└── next.config.ts     # Next.js configuration
+```
+
+## 🎨 Customization
+
+### Personal Information
+
+Update the following files with your information:
+
+1. **`src/lib/constants.ts`** - Update SEO config, social links, and personal details
+2. **`src/data/projects.ts`** - Add your projects
+3. **`public/assets/`** - Replace with your images and resume
+4. **`public/assets/resume/`** - Add your resume PDF
+
+### Styling
+
+- **Colors**: Modify `src/app/globals.css` for theme colors
+- **Fonts**: Update font imports in `src/app/layout.tsx`
+- **Components**: Customize components in `src/components/`
+
+### GitHub Pages Configuration
+
+If your repository name is different from "portfilio":
+
+1. Update `basePath` and `assetPrefix` in `next.config.ts`
+2. Update the `getAssetPath` function in `src/lib/utils.ts`
+3. Update the site URL in `src/lib/constants.ts`
+
+## 🔧 Configuration
+
+### Environment Variables
+
+Create a `.env.local` file for local development:
+
+```env
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+GITHUB_PAGES=false
+```
+
+For production (GitHub Pages), these are automatically set by the build process.
+
+## 📱 Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit your changes: `git commit -m 'Add amazing feature'`
+4. Push to the branch: `git push origin feature/amazing-feature`
+5. Open a Pull Request
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## 🙏 Acknowledgments
+
+- [Next.js](https://nextjs.org/) for the amazing framework
+- [Tailwind CSS](https://tailwindcss.com/) for the utility-first CSS framework
+- [Framer Motion](https://www.framer.com/motion/) for smooth animations
+- [shadcn/ui](https://ui.shadcn.com/) for beautiful UI components
+- [Lucide](https://lucide.dev/) for the icon library
+
+---
+
+Built with ❤️ by [Narendra Chowdary](https://github.com/nrenx)
