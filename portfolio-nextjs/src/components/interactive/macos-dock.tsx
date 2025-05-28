@@ -2,16 +2,17 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calculator, Github, Linkedin, Folder, Terminal, Mail } from 'lucide-react';
+import { Calculator, Github, Linkedin, Folder, Terminal, Mail, Monitor } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface MacOSDockProps {
   openWindows: Array<{ id: string; title: string; isMinimized: boolean }>;
   onWindowRestore: (windowId: string) => void;
+  onWallpaperClick?: () => void;
   className?: string;
 }
 
-export function MacOSDock({ openWindows, onWindowRestore, className }: MacOSDockProps) {
+export function MacOSDock({ openWindows, onWindowRestore, onWallpaperClick, className }: MacOSDockProps) {
   const [hoveredIcon, setHoveredIcon] = useState<string | null>(null);
 
   const dockApps = [
@@ -21,6 +22,13 @@ export function MacOSDock({ openWindows, onWindowRestore, className }: MacOSDock
       icon: Folder,
       color: 'text-blue-500',
       action: () => console.log('Finder clicked'),
+    },
+    {
+      id: 'wallpaper',
+      name: 'Desktop Wallpaper',
+      icon: Monitor,
+      color: 'text-purple-600',
+      action: () => onWallpaperClick?.(),
     },
     {
       id: 'calculator',
@@ -82,7 +90,7 @@ export function MacOSDock({ openWindows, onWindowRestore, className }: MacOSDock
           {dockApps.map((app) => {
             const IconComponent = app.icon;
             const isHovered = hoveredIcon === app.id;
-            
+
             return (
               <motion.div
                 key={app.id}
@@ -114,15 +122,15 @@ export function MacOSDock({ openWindows, onWindowRestore, className }: MacOSDock
                     'backdrop-blur-sm border border-white/10'
                   )}
                   onClick={() => handleIconClick(app)}
-                  whileHover={{ 
+                  whileHover={{
                     scale: 1.2,
                     y: -8,
                   }}
                   whileTap={{ scale: 0.95 }}
-                  transition={{ 
-                    type: 'spring', 
-                    stiffness: 400, 
-                    damping: 25 
+                  transition={{
+                    type: 'spring',
+                    stiffness: 400,
+                    damping: 25
                   }}
                 >
                   <IconComponent className={cn('w-6 h-6', app.color)} />
@@ -164,22 +172,22 @@ export function MacOSDock({ openWindows, onWindowRestore, className }: MacOSDock
               <motion.button
                 className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center hover:bg-white/30 transition-colors cursor-pointer backdrop-blur-sm border border-white/10 relative"
                 onClick={() => handleMinimizedWindowClick(window.id)}
-                whileHover={{ 
+                whileHover={{
                   scale: 1.2,
                   y: -8,
                 }}
                 whileTap={{ scale: 0.95 }}
-                transition={{ 
-                  type: 'spring', 
-                  stiffness: 400, 
-                  damping: 25 
+                transition={{
+                  type: 'spring',
+                  stiffness: 400,
+                  damping: 25
                 }}
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0, opacity: 0 }}
               >
                 <Folder className="w-6 h-6 text-blue-500" />
-                
+
                 {/* Active indicator */}
                 <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full" />
               </motion.button>

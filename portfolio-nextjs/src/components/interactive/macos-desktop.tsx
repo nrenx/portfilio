@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useCallback, useEffect } from 'react';
+import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { Folder, X, Minus, Square } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { MacOSWindow } from './macos-window';
 import { MacOSDock } from './macos-dock';
 import { projectsByCategory } from '@/data/projects';
+import { FILE_PATHS } from '@/lib/constants';
 
 interface MacOSDesktopProps {
   className?: string;
@@ -23,38 +24,204 @@ interface OpenWindow {
   zIndex: number;
 }
 
+interface DesktopFolder {
+  id: string;
+  name: string;
+  projects: any[];
+  position: { x: number; y: number };
+  isDragging?: boolean;
+}
+
+interface WallpaperInfo {
+  id: string;
+  name: string;
+  path: string;
+  thumbnail?: string;
+}
+
 export function MacOSDesktop({ className }: MacOSDesktopProps) {
   const [openWindows, setOpenWindows] = useState<OpenWindow[]>([]);
   const [nextZIndex, setNextZIndex] = useState(100);
+  const [currentWallpaper, setCurrentWallpaper] = useState<string>(FILE_PATHS.wallpapers.macosDesktop);
+  const [availableWallpapers, setAvailableWallpapers] = useState<WallpaperInfo[]>([]);
+  const [showWallpaperSelector, setShowWallpaperSelector] = useState(false);
 
-  const folders = [
-    {
-      id: 'web-apps',
-      name: 'Web Apps',
-      projects: projectsByCategory.web,
-      position: { x: 50, y: 50 },
-    },
-    {
-      id: 'mobile-apps',
-      name: 'Mobile Apps',
-      projects: projectsByCategory.mobile,
-      position: { x: 50, y: 150 },
-    },
-    {
-      id: 'automation',
-      name: 'Automation',
-      projects: projectsByCategory.automation,
-      position: { x: 50, y: 250 },
-    },
-  ];
+  // Initialize folders with optimized responsive horizontal layout
+  const getInitialFolderPositions = () => {
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const baseY = 80; // Top margin
+    const spacing = isMobile ? 120 : 130; // Optimized horizontal spacing for better visual density
+    const startX = isMobile ? 50 : 100; // Responsive left margin
+
+    if (isMobile) {
+      // Stack vertically on mobile for better usability
+      return [
+        {
+          id: 'web-apps',
+          name: 'Web Apps',
+          projects: projectsByCategory.web,
+          position: { x: startX, y: baseY },
+        },
+        {
+          id: 'mobile-apps',
+          name: 'Mobile Apps',
+          projects: projectsByCategory.mobile,
+          position: { x: startX, y: baseY + 120 },
+        },
+        {
+          id: 'automation',
+          name: 'Automation',
+          projects: projectsByCategory.automation,
+          position: { x: startX, y: baseY + 240 },
+        },
+      ];
+    }
+
+    return [
+      {
+        id: 'web-apps',
+        name: 'Web Apps',
+        projects: projectsByCategory.web,
+        position: { x: startX, y: baseY },
+      },
+      {
+        id: 'mobile-apps',
+        name: 'Mobile Apps',
+        projects: projectsByCategory.mobile,
+        position: { x: startX + spacing, y: baseY },
+      },
+      {
+        id: 'automation',
+        name: 'Automation',
+        projects: projectsByCategory.automation,
+        position: { x: startX + spacing * 2, y: baseY },
+      },
+    ];
+  };
+
+  const [folders, setFolders] = useState<DesktopFolder[]>(() => {
+    // Try to load from sessionStorage first
+    if (typeof window !== 'undefined') {
+      const saved = sessionStorage.getItem('macos-folder-positions');
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) {
+          console.warn('Failed to parse saved folder positions');
+        }
+      }
+    }
+    return getInitialFolderPositions();
+  });
+
+  // Load available wallpapers on mount
+  useEffect(() => {
+    const loadWallpapers = async () => {
+      try {
+        // In a real implementation, you'd fetch this from an API
+        // For now, we'll use the known wallpapers
+        const wallpapers: WallpaperInfo[] = [
+          {
+            id: 'wallpaper-1',
+            name: 'Default Wallpaper',
+            path: '/assets/macOS-wallpaper/wallpaperflare.com_wallpaper (1).jpg',
+          },
+          {
+            id: 'wallpaper-2',
+            name: 'Alternative Wallpaper',
+            path: '/assets/macOS-wallpaper/wallpaperflare.com_wallpaper.jpg',
+          },
+        ];
+        setAvailableWallpapers(wallpapers);
+      } catch (error) {
+        console.error('Failed to load wallpapers:', error);
+      }
+    };
+
+    loadWallpapers();
+  }, []);
+
+  // Save folder positions to sessionStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('macos-folder-positions', JSON.stringify(folders));
+    }
+  }, [folders]);
+
+  // Handle folder drag start for immediate feedback
+  const handleFolderDragStart = useCallback((folderId: string) => {
+    // Bring dragged folder to front immediately
+    setFolders(prev => prev.map(folder =>
+      folder.id === folderId
+        ? { ...folder, isDragging: true }
+        : { ...folder, isDragging: false }
+    ));
+  }, []);
+
+  // Handle folder drag with smooth responsive constraints and momentum
+  const handleFolderDrag = useCallback((folderId: string, info: PanInfo) => {
+    setFolders(prev => prev.map(folder => {
+      if (folder.id === folderId) {
+        const margin = 50;
+        const folderWidth = 100; // Approximate folder width including text
+        const folderHeight = 100; // Approximate folder height including text
+
+        const maxX = (typeof window !== 'undefined' ? window.innerWidth : 1200) - folderWidth - margin;
+        const maxY = (typeof window !== 'undefined' ? window.innerHeight : 800) - folderHeight - margin;
+
+        // Apply momentum-based positioning with smooth constraints
+        let newX = folder.position.x + info.offset.x;
+        let newY = folder.position.y + info.offset.y;
+
+        // Add velocity-based momentum for natural feel
+        if (info.velocity.x !== 0) {
+          newX += info.velocity.x * 0.1; // Momentum factor
+        }
+        if (info.velocity.y !== 0) {
+          newY += info.velocity.y * 0.1; // Momentum factor
+        }
+
+        // Smooth boundary constraints with elastic feel
+        newX = Math.max(margin, Math.min(newX, maxX));
+        newY = Math.max(margin, Math.min(newY, maxY));
+
+        return {
+          ...folder,
+          position: { x: Math.round(newX), y: Math.round(newY) }, // Round for crisp positioning
+          isDragging: false // Reset dragging state
+        };
+      }
+      return folder;
+    }));
+  }, []);
+
+  // Handle wallpaper change
+  const handleWallpaperChange = useCallback((wallpaperPath: string) => {
+    setCurrentWallpaper(wallpaperPath);
+    setShowWallpaperSelector(false);
+    // Save to sessionStorage
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('macos-current-wallpaper', wallpaperPath);
+    }
+  }, []);
+
+  // Load saved wallpaper on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedWallpaper = sessionStorage.getItem('macos-current-wallpaper');
+      if (savedWallpaper) {
+        setCurrentWallpaper(savedWallpaper);
+      }
+    }
+  }, []);
 
   const openFolder = useCallback((folder: typeof folders[0]) => {
     const existingWindow = openWindows.find(w => w.id === folder.id);
     if (existingWindow) {
       // Bring to front
-      setOpenWindows(prev => 
-        prev.map(w => 
-          w.id === folder.id 
+      setOpenWindows(prev =>
+        prev.map(w =>
+          w.id === folder.id
             ? { ...w, zIndex: nextZIndex, isMinimized: false }
             : w
         )
@@ -114,9 +281,9 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
   const openProjectWindow = useCallback((project: any) => {
     const existingWindow = openWindows.find(w => w.id === project.id);
     if (existingWindow) {
-      setOpenWindows(prev => 
-        prev.map(w => 
-          w.id === project.id 
+      setOpenWindows(prev =>
+        prev.map(w =>
+          w.id === project.id
             ? { ...w, zIndex: nextZIndex, isMinimized: false }
             : w
         )
@@ -134,7 +301,7 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
             <h3 className="text-xl font-bold text-foreground mb-2">{project.title}</h3>
             <p className="text-muted-foreground">{project.longDescription}</p>
           </div>
-          
+
           <div className="mb-4">
             <h4 className="font-semibold text-foreground mb-2">Technologies</h4>
             <div className="flex flex-wrap gap-2">
@@ -201,19 +368,19 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
   }, []);
 
   const minimizeWindow = useCallback((windowId: string) => {
-    setOpenWindows(prev => 
-      prev.map(w => 
+    setOpenWindows(prev =>
+      prev.map(w =>
         w.id === windowId ? { ...w, isMinimized: true } : w
       )
     );
   }, []);
 
   const maximizeWindow = useCallback((windowId: string) => {
-    setOpenWindows(prev => 
-      prev.map(w => 
-        w.id === windowId 
-          ? { 
-              ...w, 
+    setOpenWindows(prev =>
+      prev.map(w =>
+        w.id === windowId
+          ? {
+              ...w,
               isMaximized: !w.isMaximized,
               position: w.isMaximized ? w.position : { x: 0, y: 0 },
               size: w.isMaximized ? w.size : { width: window.innerWidth, height: window.innerHeight - 100 }
@@ -224,16 +391,16 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
   }, []);
 
   const updateWindowPosition = useCallback((windowId: string, position: { x: number; y: number }) => {
-    setOpenWindows(prev => 
-      prev.map(w => 
+    setOpenWindows(prev =>
+      prev.map(w =>
         w.id === windowId ? { ...w, position } : w
       )
     );
   }, []);
 
   const bringToFront = useCallback((windowId: string) => {
-    setOpenWindows(prev => 
-      prev.map(w => 
+    setOpenWindows(prev =>
+      prev.map(w =>
         w.id === windowId ? { ...w, zIndex: nextZIndex } : w
       )
     );
@@ -243,9 +410,14 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
   return (
     <div className={cn('relative w-full h-full overflow-hidden', className)}>
       {/* Desktop Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-300/20 via-transparent to-purple-500/20" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.1)_0%,transparent_50%)]" />
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-500"
+        style={{
+          backgroundImage: `url('${currentWallpaper}')`,
+        }}
+      >
+        {/* Subtle overlay for better icon visibility */}
+        <div className="absolute inset-0 bg-black/10" />
       </div>
 
       {/* Desktop Icons */}
@@ -253,16 +425,80 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
         {folders.map((folder) => (
           <motion.div
             key={folder.id}
-            className="absolute flex flex-col items-center cursor-pointer group"
+            className="absolute flex flex-col items-center cursor-pointer group select-none hover:cursor-grab active:cursor-grabbing"
             style={{ left: folder.position.x, top: folder.position.y }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            drag
+            dragMomentum={true}
+            dragElastic={0.1}
+            dragTransition={{
+              bounceStiffness: 600,
+              bounceDamping: 20,
+              power: 0.3,
+              timeConstant: 200,
+            }}
+            dragConstraints={{
+              left: 50,
+              right: (typeof window !== 'undefined' ? window.innerWidth : 1200) - 150,
+              top: 50,
+              bottom: (typeof window !== 'undefined' ? window.innerHeight : 800) - 150,
+            }}
+            onDragStart={() => handleFolderDragStart(folder.id)}
+            onDragEnd={(_, info) => handleFolderDrag(folder.id, info)}
+            whileHover={{
+              scale: 1.05,
+              transition: { type: 'spring', stiffness: 400, damping: 25 }
+            }}
+            whileTap={{
+              scale: 0.95,
+              transition: { type: 'spring', stiffness: 600, damping: 30 }
+            }}
+            whileDrag={{
+              scale: 1.1,
+              zIndex: 1000,
+              boxShadow: '0 15px 40px rgba(0, 0, 0, 0.4)',
+              rotate: [0, 1, -1, 0],
+              transition: {
+                type: 'spring',
+                stiffness: 500,
+                damping: 25,
+                rotate: { duration: 0.2, repeat: Infinity, repeatType: 'reverse' }
+              }
+            }}
             onDoubleClick={() => openFolder(folder)}
+            transition={{
+              type: 'spring',
+              stiffness: 400,
+              damping: 25,
+              mass: 0.8
+            }}
+            layout
+            layoutTransition={{
+              type: 'spring',
+              stiffness: 500,
+              damping: 30,
+              mass: 0.8
+            }}
           >
-            <div className="w-16 h-16 mb-2 relative">
-              <Folder className="w-full h-full text-yellow-300 drop-shadow-lg group-hover:text-yellow-200 transition-colors" />
-              <div className="absolute inset-0 bg-gradient-to-br from-yellow-200/20 to-orange-300/20 rounded-lg" />
-            </div>
+            <motion.div
+              className="w-16 h-16 mb-2 relative"
+              animate={{
+                rotateY: 0,
+                rotateX: 0,
+              }}
+              whileHover={{
+                rotateY: 5,
+                rotateX: 5,
+                transition: { type: 'spring', stiffness: 300, damping: 20 }
+              }}
+              whileDrag={{
+                rotateY: 10,
+                rotateX: 10,
+                transition: { type: 'spring', stiffness: 400, damping: 25 }
+              }}
+            >
+              <Folder className="w-full h-full text-yellow-300 drop-shadow-lg group-hover:text-yellow-200 transition-all duration-200" />
+              <div className="absolute inset-0 bg-gradient-to-br from-yellow-200/20 to-orange-300/20 rounded-lg transition-all duration-200 group-hover:from-yellow-200/30 group-hover:to-orange-300/30" />
+            </motion.div>
             <span className="text-white text-sm font-medium text-center drop-shadow-md max-w-20 leading-tight">
               {folder.name}
             </span>
@@ -293,19 +529,86 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
         ))}
       </AnimatePresence>
 
+      {/* Wallpaper Selector Window */}
+      <AnimatePresence>
+        {showWallpaperSelector && (
+          <MacOSWindow
+            id="wallpaper-selector"
+            title="Change Desktop Wallpaper"
+            position={{
+              x: typeof window !== 'undefined' && window.innerWidth < 768 ? 20 : 300,
+              y: typeof window !== 'undefined' && window.innerWidth < 768 ? 50 : 150
+            }}
+            size={{
+              width: typeof window !== 'undefined' && window.innerWidth < 768 ? window.innerWidth - 40 : 600,
+              height: typeof window !== 'undefined' && window.innerWidth < 768 ? window.innerHeight - 100 : 400
+            }}
+            isMinimized={false}
+            isMaximized={false}
+            zIndex={nextZIndex + 1}
+            onClose={() => setShowWallpaperSelector(false)}
+            onMinimize={() => setShowWallpaperSelector(false)}
+            onMaximize={() => {}}
+            onPositionChange={() => {}}
+            onFocus={() => {}}
+          >
+            <div className="p-4 md:p-6 h-full">
+              <h3 className="text-lg font-semibold mb-4 text-foreground">Choose a wallpaper</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-full overflow-auto">
+                {availableWallpapers.map((wallpaper) => (
+                  <motion.div
+                    key={wallpaper.id}
+                    className={cn(
+                      'relative aspect-video rounded-lg overflow-hidden cursor-pointer border-2 transition-all',
+                      currentWallpaper === wallpaper.path
+                        ? 'border-primary shadow-lg'
+                        : 'border-border/50 hover:border-primary/50'
+                    )}
+                    onClick={() => handleWallpaperChange(wallpaper.path)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <div
+                      className="w-full h-full bg-cover bg-center bg-no-repeat"
+                      style={{
+                        backgroundImage: `url('${wallpaper.path}')`,
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                    <div className="absolute bottom-2 left-2 right-2">
+                      <p className="text-white text-sm font-medium truncate">
+                        {wallpaper.name}
+                      </p>
+                    </div>
+                    {currentWallpaper === wallpaper.path && (
+                      <div className="absolute top-2 right-2">
+                        <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                          <div className="w-2 h-2 bg-white rounded-full" />
+                        </div>
+                      </div>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </MacOSWindow>
+        )}
+      </AnimatePresence>
+
       {/* Dock */}
-      <MacOSDock 
+      <MacOSDock
         openWindows={openWindows}
         onWindowRestore={(windowId) => {
-          setOpenWindows(prev => 
-            prev.map(w => 
-              w.id === windowId 
+          setOpenWindows(prev =>
+            prev.map(w =>
+              w.id === windowId
                 ? { ...w, isMinimized: false, zIndex: nextZIndex }
                 : w
             )
           );
           setNextZIndex(prev => prev + 1);
         }}
+        onWallpaperClick={() => setShowWallpaperSelector(true)}
       />
     </div>
   );

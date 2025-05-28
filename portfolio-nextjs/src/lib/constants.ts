@@ -249,6 +249,9 @@ export const FILE_PATHS = {
     logoLight: '/icons/logo-light.svg',
     logoDark: '/icons/logo-dark.svg',
   },
+  wallpapers: {
+    macosDesktop: '/assets/macOS-wallpaper/wallpaperflare.com_wallpaper (1).jpg',
+  },
 } as const;
 
 // API Endpoints (if needed)
