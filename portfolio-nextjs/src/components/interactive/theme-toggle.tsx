@@ -72,33 +72,55 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
 
           {/* Filament 1 */}
           <motion.span
-            className={cn(
-              'filament-1 absolute block h-[20px] w-[20px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-[0.7s]',
-              'before:content-[""] before:absolute before:block before:h-[10px] before:w-[2px] before:left-[15px] before:transform before:rotate-[10deg]',
-              isDark
-                ? 'before:bg-[#fdb843] before:shadow-[0_0_4px_2px_#fdb843]'
-                : 'before:bg-[#2a2a2c]'
-            )}
-            animate={{
-              opacity: isDark ? 1 : 0.6,
-            }}
-            transition={{ duration: 0.7 }}
-          />
+            className="filament-1 absolute block h-[35px] w-[35px] rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-[-45deg] overflow-hidden"
+          >
+            <motion.span
+              className="absolute block h-[6px] w-[17px] rounded-full border-2 top-[-4px] left-[-2px] transform rotate-[-10deg]"
+              style={{
+                borderColor: isDark ? '#fef4d5' : '#4a426b',
+              }}
+              animate={{
+                borderColor: isDark ? '#fef4d5' : '#4a426b',
+              }}
+              transition={{ duration: 0.7 }}
+            />
+            <motion.span
+              className="absolute block h-[6px] w-[17px] rounded-full border-2 top-[-4px] left-[15px] transform rotate-[10deg]"
+              style={{
+                borderColor: isDark ? '#fef4d5' : '#4a426b',
+              }}
+              animate={{
+                borderColor: isDark ? '#fef4d5' : '#4a426b',
+              }}
+              transition={{ duration: 0.7 }}
+            />
+          </motion.span>
 
           {/* Filament 2 */}
           <motion.span
-            className={cn(
-              'filament-2 absolute block h-[20px] w-[20px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45 transition-all duration-[0.7s]',
-              'before:content-[""] before:absolute before:block before:h-[10px] before:w-[2px] before:left-[15px] before:transform before:rotate-[10deg]',
-              isDark
-                ? 'before:bg-[#fdb843] before:shadow-[0_0_4px_2px_#fdb843]'
-                : 'before:bg-[#2a2a2c]'
-            )}
-            animate={{
-              opacity: isDark ? 1 : 0.6,
-            }}
-            transition={{ duration: 0.7 }}
-          />
+            className="filament-2 absolute block h-[35px] w-[35px] rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-[45deg] overflow-hidden"
+          >
+            <motion.span
+              className="absolute block h-[6px] w-[17px] rounded-full border-2 top-[-4px] left-[-2px] transform rotate-[-10deg]"
+              style={{
+                borderColor: isDark ? '#fef4d5' : '#4a426b',
+              }}
+              animate={{
+                borderColor: isDark ? '#fef4d5' : '#4a426b',
+              }}
+              transition={{ duration: 0.7 }}
+            />
+            <motion.span
+              className="absolute block h-[6px] w-[17px] rounded-full border-2 top-[-4px] left-[15px] transform rotate-[10deg]"
+              style={{
+                borderColor: isDark ? '#fef4d5' : '#4a426b',
+              }}
+              animate={{
+                borderColor: isDark ? '#fef4d5' : '#4a426b',
+              }}
+              transition={{ duration: 0.7 }}
+            />
+          </motion.span>
 
           {/* Reflections */}
           <motion.span
@@ -127,37 +149,197 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
             />
           </motion.span>
 
-          {/* Sparks */}
+          {/* Sparks - Exact Original Implementation */}
           <motion.span
             className="sparks absolute block h-[50px] w-[50px] top-0 left-0"
             animate={{
               opacity: isDark ? 1 : 0,
             }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.4 }}
           >
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-              <motion.i
-                key={i}
-                className={cn(
-                  `spark${i} absolute block h-[4px] w-[4px] rounded-full`,
-                  isDark ? 'bg-[#fdb843]' : 'bg-transparent'
-                )}
-                style={{
-                  top: i === 1 ? '18px' : i === 2 ? '14px' : i === 3 ? '18px' : i === 4 ? '28px' : i === 5 ? '32px' : i === 6 ? '28px' : i === 7 ? '18px' : '14px',
-                  left: i === 1 ? '44px' : i === 2 ? '34px' : i === 3 ? '6px' : i === 4 ? '2px' : i === 5 ? '6px' : i === 6 ? '44px' : i === 7 ? '46px' : '34px',
-                  animationDelay: `${i * 0.1}s`,
-                }}
-                animate={{
-                  scale: isDark ? [1, 1.5, 1] : [0, 0, 0],
-                  opacity: isDark ? [0.8, 1, 0.8] : [0, 0, 0],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              />
-            ))}
+            {/* Spark 1 */}
+            <motion.i
+              className="spark1 absolute block h-[8px] w-[8px] bg-[#d1b82b] rounded-full shadow-[0_0_12px_#d1b82b,0_0_18px_#fdb843]"
+              style={{
+                right: '-5px',
+                bottom: '23px',
+              }}
+              animate={isDark ? {
+                opacity: [0, 0, 1, 1, 0],
+                right: ['-5px', '-5px', '0px', '0px', '-70px'],
+                bottom: ['23px', '23px', '23px', '23px', '50px'],
+              } : {
+                opacity: 0,
+              }}
+              transition={{
+                duration: 20,
+                delay: 1.2,
+                repeat: Infinity,
+                ease: 'linear',
+                times: [0, 0.4, 0.5, 0.9, 1],
+              }}
+            />
+
+            {/* Spark 2 */}
+            <motion.i
+              className="spark2 absolute block h-[8px] w-[8px] bg-[#d1b82b] rounded-full shadow-[0_0_12px_#d1b82b,0_0_18px_#fdb843]"
+              style={{
+                right: '20px',
+                bottom: '80px',
+              }}
+              animate={isDark ? {
+                opacity: [0, 0, 1, 1, 0],
+                right: ['20px', '20px', '20px', '20px', '10px'],
+                bottom: ['80px', '80px', '80px', '80px', '90px'],
+              } : {
+                opacity: 0,
+              }}
+              transition={{
+                duration: 18.0,
+                delay: 2.0,
+                repeat: Infinity,
+                ease: 'linear',
+                times: [0, 0.5, 0.6, 0.9, 1],
+              }}
+            />
+
+            {/* Spark 3 */}
+            <motion.i
+              className="spark3 absolute block h-[8px] w-[8px] bg-[#d1b82b] rounded-full shadow-[0_0_12px_#d1b82b,0_0_18px_#fdb843]"
+              style={{
+                left: '20px',
+                bottom: '80px',
+              }}
+              animate={isDark ? {
+                opacity: [0, 0, 1, 1, 0],
+                left: ['20px', '20px', '20px', '20px', '-30px'],
+                bottom: ['80px', '80px', '80px', '80px', '60px'],
+              } : {
+                opacity: 0,
+              }}
+              transition={{
+                duration: 16.0,
+                delay: 3.0,
+                repeat: Infinity,
+                ease: 'linear',
+                times: [0, 0.5, 0.6, 0.9, 1],
+              }}
+            />
+
+            {/* Spark 4 */}
+            <motion.i
+              className="spark4 absolute block h-[8px] w-[8px] bg-[#d1b82b] rounded-full shadow-[0_0_12px_#d1b82b,0_0_18px_#fdb843]"
+              style={{
+                left: '20px',
+                bottom: '20px',
+              }}
+              animate={isDark ? {
+                opacity: [0, 0, 1, 1, 0],
+                left: ['20px', '20px', '20px', '20px', '50px'],
+                bottom: ['20px', '20px', '20px', '20px', '30px'],
+              } : {
+                opacity: 0,
+              }}
+              transition={{
+                duration: 14.5,
+                delay: 3.5,
+                repeat: Infinity,
+                ease: 'linear',
+                times: [0, 0.5, 0.6, 0.9, 1],
+              }}
+            />
+
+            {/* Spark 5 */}
+            <motion.i
+              className="spark5 absolute block h-[8px] w-[8px] bg-[#d1b82b] rounded-full shadow-[0_0_12px_#d1b82b,0_0_18px_#fdb843]"
+              style={{
+                right: '10px',
+                top: '10px',
+              }}
+              animate={isDark ? {
+                opacity: [0, 0, 1, 1, 0],
+                right: ['10px', '10px', '10px', '10px', '60px'],
+                top: ['10px', '10px', '10px', '10px', '50px'],
+              } : {
+                opacity: 0,
+              }}
+              transition={{
+                duration: 13.0,
+                delay: 1.8,
+                repeat: Infinity,
+                ease: 'linear',
+                times: [0, 0.5, 0.6, 0.9, 1],
+              }}
+            />
+
+            {/* Spark 6 */}
+            <motion.i
+              className="spark6 absolute block h-[8px] w-[8px] bg-[#d1b82b] rounded-full shadow-[0_0_12px_#d1b82b,0_0_18px_#fdb843]"
+              style={{
+                left: '10px',
+                top: '10px',
+              }}
+              animate={isDark ? {
+                opacity: [0, 0, 1, 1, 0],
+                left: ['10px', '10px', '10px', '10px', '40px'],
+                top: ['10px', '10px', '10px', '10px', '70px'],
+              } : {
+                opacity: 0,
+              }}
+              transition={{
+                duration: 17.5,
+                delay: 2.5,
+                repeat: Infinity,
+                ease: 'linear',
+                times: [0, 0.5, 0.6, 0.9, 1],
+              }}
+            />
+
+            {/* Spark 7 */}
+            <motion.i
+              className="spark7 absolute block h-[8px] w-[8px] bg-[#d1b82b] rounded-full shadow-[0_0_12px_#d1b82b,0_0_18px_#fdb843]"
+              style={{
+                right: '30px',
+                bottom: '10px',
+              }}
+              animate={isDark ? {
+                opacity: [0, 0, 1, 1, 0],
+                right: ['30px', '30px', '30px', '30px', '80px'],
+                bottom: ['10px', '10px', '10px', '10px', '-10px'],
+              } : {
+                opacity: 0,
+              }}
+              transition={{
+                duration: 15.2,
+                delay: 2.2,
+                repeat: Infinity,
+                ease: 'linear',
+                times: [0, 0.5, 0.6, 0.9, 1],
+              }}
+            />
+
+            {/* Spark 8 */}
+            <motion.i
+              className="spark8 absolute block h-[8px] w-[8px] bg-[#d1b82b] rounded-full shadow-[0_0_12px_#d1b82b,0_0_18px_#fdb843]"
+              style={{
+                left: '30px',
+                bottom: '10px',
+              }}
+              animate={isDark ? {
+                opacity: [0, 0, 1, 1, 0],
+                left: ['30px', '30px', '30px', '30px', '70px'],
+                bottom: ['10px', '10px', '10px', '10px', '0px'],
+              } : {
+                opacity: 0,
+              }}
+              transition={{
+                duration: 19.0,
+                delay: 4.0,
+                repeat: Infinity,
+                ease: 'linear',
+                times: [0, 0.5, 0.6, 0.9, 1],
+              }}
+            />
           </motion.span>
         </motion.i>
       </label>
