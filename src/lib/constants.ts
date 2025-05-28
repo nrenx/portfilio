@@ -155,7 +155,7 @@ export const SEO_CONFIG: SEOConfig = {
   author: 'Your Name',
   siteUrl: APP_CONFIG.baseUrl,
   image: '/assets/images/og-image.jpg',
-  twitterHandle: '@yourhandle',
+  twitterHandle: '@___CHOWDARY___',
 };
 
 // Social Media Links
@@ -174,7 +174,7 @@ export const SOCIAL_LINKS = [
   },
   {
     platform: 'Twitter',
-    url: 'https://twitter.com/nrenx',
+    url: 'https://x.com/___CHOWDARY___',
     icon: 'Twitter',
     label: 'Twitter Profile',
   },

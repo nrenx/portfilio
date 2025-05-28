@@ -10,7 +10,7 @@ interface ParticleAnimationProps {
 
 export function ParticleAnimation({ className }: ParticleAnimationProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | null>(null);
   const particlesRef = useRef<Array<{
     x: number;
     y: number;

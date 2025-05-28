@@ -1,107 +1,36 @@
-# Narendra Chowdary Portfolio
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-A modern, interactive portfolio website showcasing my skills, projects, and experience as a No-Code Developer, AI Prompt Engineer, and Mobile App Creator.
+## Getting Started
 
-## 🌟 Features
+First, run the development server:
 
-- **Interactive macOS Interface** - Project section features a realistic macOS desktop experience with interactive folders, windows, and dock
-- **Responsive Design** - Fully responsive layout that works seamlessly on desktop, tablet, and mobile devices
-- **Dark/Light Mode Toggle** - Custom-built theme switcher with smooth transitions and particle effects
-- **Animated Sections** - Smooth scroll animations and section transitions enhance user experience
-- **Professional Contact Form** - Clean, accessible contact form for potential clients and employers
-- **Resume Integration** - Direct access to view and download my professional resume
-
-## 💻 Technologies Used
-
-- **HTML5** - Semantic markup for improved accessibility and SEO
-- **CSS3** - Custom styling with modern CSS features
-- **JavaScript** - Interactive elements and animations
-- **Font Awesome** - Icon library for visual elements
-- **Google Fonts** - Typography enhancement with Inter and Poppins fonts
-
-## 🏗️ Project Structure
-
-```
-portfolio/
-├── assets/
-│   ├── images/ - Portfolio images
-│   └── resume/ - Resume PDF
-├── css/
-│   ├── about.css - About section styles
-│   ├── contact.css - Contact section styles
-│   ├── experience.css - Experience section styles
-│   ├── home.css - Home section styles
-│   ├── macos-interface.css - macOS interface styles
-│   ├── projects.css - Projects section styles
-│   └── sections.css - General section styles
-├── style.css - Main stylesheet
-├── javascript.js - Main JavaScript file
-└── index.html - Main HTML document
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-## 🚀 Key Features
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### macOS Desktop Interface
-- Interactive folders that open project windows
-- Realistic window controls (close, minimize, maximize)
-- Draggable windows with proper animations
-- Dock with hover effects and tooltips
-- Authentic macOS styling and behavior
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-### Responsive Navigation
-- Modern navbar with smooth section transitions
-- Mobile-optimized menu with animations
-- Active section highlighting
-- Scroll-aware navigation updates
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-### Dark/Light Mode
-- Custom-built theme toggle with light bulb animation
-- Particle animation background in dark mode
-- Persistent theme preference
-- Smooth transition between themes
+## Learn More
 
-### Animated Landing Screen
-- Multi-language greeting animation
-- Particle effects during transition
-- Smooth reveal of main content
+To learn more about Next.js, take a look at the following resources:
 
-## 🛠️ Setup and Usage
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-1. Clone the repository
-   ```
-   git clone https://github.com/nrenx/portfolio.git
-   ```
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-2. Open the project folder
-   ```
-   cd portfolio
-   ```
+## Deploy on Vercel
 
-3. Open `index.html` in your browser or use a local server
-   ```
-   # Using Python's built-in server
-   python -m http.server
-   ```
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-4. For development, you can modify the CSS files in the `css/` directory and the main JavaScript file `javascript.js`
-
-## 📱 Mobile Optimization
-
-- Responsive design adapts to all screen sizes
-- Touch-friendly navigation and interactive elements
-- Optimized performance for mobile devices
-- Adjusted animations for better mobile experience
-
-## 🔗 Links
-
-- [GitHub](https://github.com/nrenx)
-- [LinkedIn](https://linkedin.com/in/bollineninarendrachowdary)
-- [Live Demo](https://your-portfolio-url.com)
-
-## 📄 License
-
-This project is available for personal use and as a portfolio reference. Please contact me for any other usage.
-
-## 📞 Contact
-
-Feel free to reach out to me at narendrabollineni2002@gmail.com for any questions or opportunities.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

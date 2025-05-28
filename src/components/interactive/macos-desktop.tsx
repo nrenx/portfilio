@@ -106,55 +106,75 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
       ];
     }
 
+    // Desktop 2x2+1 grid layout
+    const rowSpacing = 140; // Vertical spacing between rows
+    const row1Y = baseY; // First row Y position
+    const row2Y = baseY + rowSpacing; // Second row Y position
+    const row3Y = baseY + rowSpacing * 2; // Third row Y position
+
+    // Calculate center position for "More Projects" in bottom row
+    const centerX = startX + (spacing / 2); // Center between two columns
+
     return [
+      // Row 1: Trade Book Ledge, NBKRIST Portal
       {
         id: 'trade-book-ledge',
         name: 'Trade Book Ledge',
         project: tradeBookLedge,
-        position: { x: startX, y: baseY },
+        position: { x: startX, y: row1Y },
         type: 'project' as const,
       },
       {
         id: 'nbkrist-portal',
         name: 'NBKRIST Student Portal',
         project: nbkristPortal,
-        position: { x: startX + spacing, y: baseY },
+        position: { x: startX + spacing, y: row1Y },
         type: 'project' as const,
       },
+      // Row 2: AI Weather Reporter, Portfolio Website
       {
         id: 'ai-automation-internship',
-        name: 'AI Automation Internship',
+        name: 'AI Weather Reporter',
         project: aiAutomationInternship,
-        position: { x: startX + spacing * 2, y: baseY },
+        position: { x: startX, y: row2Y },
         type: 'project' as const,
       },
       {
         id: 'portfolio-website',
         name: 'Interactive Portfolio Website',
         project: portfolioWebsite,
-        position: { x: startX + spacing * 3, y: baseY },
+        position: { x: startX + spacing, y: row2Y },
         type: 'project' as const,
       },
+      // Row 3: More Projects (centered)
       {
         id: 'more-projects',
         name: 'More Projects',
         projects: remainingProjects,
-        position: { x: startX + spacing * 4, y: baseY },
+        position: { x: centerX, y: row3Y },
         type: 'special' as const,
       },
     ];
   };
 
   const [folders, setFolders] = useState<DesktopFolder[]>(() => {
-    // Try to load from sessionStorage first
+    // Check for layout version to reset positions when layout changes
+    const LAYOUT_VERSION = '2x2+1-grid'; // Update this when layout changes
+
     if (typeof window !== 'undefined') {
+      const savedVersion = sessionStorage.getItem('macos-layout-version');
       const saved = sessionStorage.getItem('macos-folder-positions');
-      if (saved) {
+
+      // If layout version matches and we have saved positions, use them
+      if (savedVersion === LAYOUT_VERSION && saved) {
         try {
           return JSON.parse(saved);
         } catch (e) {
           console.warn('Failed to parse saved folder positions');
         }
+      } else {
+        // Layout changed or no saved version, reset to new layout
+        sessionStorage.setItem('macos-layout-version', LAYOUT_VERSION);
       }
     }
     return getInitialFolderPositions();
@@ -309,7 +329,7 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
                   <h4 className="font-medium text-foreground mb-2">{project.title}</h4>
                   <p className="text-sm text-muted-foreground mb-3">{project.description}</p>
                   <div className="flex flex-wrap gap-1">
-                    {project.technologies.slice(0, 3).map((tech) => (
+                    {project.technologies.slice(0, 3).map((tech: string) => (
                       <span
                         key={tech}
                         className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md"
@@ -527,18 +547,18 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
               }
             }}
             onDoubleClick={() => openFolder(folder)}
+            layout
             transition={{
               type: 'spring',
               stiffness: 400,
               damping: 25,
-              mass: 0.8
-            }}
-            layout
-            layoutTransition={{
-              type: 'spring',
-              stiffness: 500,
-              damping: 30,
-              mass: 0.8
+              mass: 0.8,
+              layout: {
+                type: 'spring',
+                stiffness: 500,
+                damping: 30,
+                mass: 0.8
+              }
             }}
           >
             <motion.div

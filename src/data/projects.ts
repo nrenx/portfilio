@@ -60,7 +60,7 @@ export const projects: Project[] = [
       'Automated notifications'
     ],
     githubUrl: 'https://github.com/nrenx/nbkrist-telegram-bot',
-    liveUrl: null,
+    liveUrl: undefined,
     imageUrl: '/assets/images/projects/automation.jpg',
     category: 'other',
     status: 'completed',
@@ -82,7 +82,7 @@ export const projects: Project[] = [
       'Professional responsive UI with shadcn/ui'
     ],
     githubUrl: 'https://github.com/nrenx/ai-automation-internship',
-    liveUrl: null,
+    liveUrl: undefined,
     imageUrl: '/assets/images/projects/chatbot.jpg',
     category: 'web',
     status: 'completed',
@@ -104,7 +104,7 @@ export const projects: Project[] = [
       'Analytics and reporting'
     ],
     githubUrl: 'https://github.com/nrenx/designer-shortlist-platform',
-    liveUrl: null,
+    liveUrl: undefined,
     imageUrl: '/assets/images/projects/ecommerce.jpg',
     category: 'web',
     status: 'completed',

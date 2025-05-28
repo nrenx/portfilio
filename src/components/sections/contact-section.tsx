@@ -75,7 +75,7 @@ export function ContactSection({ className }: ContactSectionProps) {
     {
       icon: Twitter,
       label: 'Twitter',
-      href: 'https://twitter.com/nrenx',
+      href: 'https://x.com/___CHOWDARY___',
     },
   ];
 
