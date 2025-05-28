@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { Folder, X, Minus, Square } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn, getRuntimeAssetPath } from '@/lib/utils';
 import { MacOSWindow } from './macos-window';
 import { MacOSDock } from './macos-dock';
 import { projects } from '@/data/projects';
@@ -44,9 +44,10 @@ interface WallpaperInfo {
 export function MacOSDesktop({ className }: MacOSDesktopProps) {
   const [openWindows, setOpenWindows] = useState<OpenWindow[]>([]);
   const [nextZIndex, setNextZIndex] = useState(100);
-  const [currentWallpaper, setCurrentWallpaper] = useState<string>(FILE_PATHS.wallpapers.macosDesktop);
+  const [currentWallpaper, setCurrentWallpaper] = useState<string>('');
   const [availableWallpapers, setAvailableWallpapers] = useState<WallpaperInfo[]>([]);
   const [showWallpaperSelector, setShowWallpaperSelector] = useState(false);
+  const [wallpaperLoaded, setWallpaperLoaded] = useState(false);
 
   // Initialize folders with individual project folders
   const getInitialFolderPositions = () => {
@@ -184,28 +185,36 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
   useEffect(() => {
     const loadWallpapers = async () => {
       try {
-        // In a real implementation, you'd fetch this from an API
-        // For now, we'll use the known wallpapers
+        // Use runtime asset paths for GitHub Pages compatibility
+        const defaultWallpaperPath = getRuntimeAssetPath('/assets/macOS-wallpaper/wallpaperflare.com_wallpaper (1).jpg');
+        const altWallpaperPath = getRuntimeAssetPath('/assets/macOS-wallpaper/wallpaperflare.com_wallpaper.jpg');
+
         const wallpapers: WallpaperInfo[] = [
           {
             id: 'wallpaper-1',
             name: 'Default Wallpaper',
-            path: FILE_PATHS.wallpapers.macosDesktop,
+            path: defaultWallpaperPath,
           },
           {
             id: 'wallpaper-2',
             name: 'Alternative Wallpaper',
-            path: FILE_PATHS.wallpapers.macosDesktopAlt,
+            path: altWallpaperPath,
           },
         ];
         setAvailableWallpapers(wallpapers);
+
+        // Set default wallpaper if none is set
+        if (!currentWallpaper) {
+          setCurrentWallpaper(defaultWallpaperPath);
+          preloadWallpaper(defaultWallpaperPath);
+        }
       } catch (error) {
         console.error('Failed to load wallpapers:', error);
       }
     };
 
     loadWallpapers();
-  }, []);
+  }, [currentWallpaper, preloadWallpaper]);
 
   // Save folder positions to sessionStorage
   useEffect(() => {
@@ -261,15 +270,33 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
     }));
   }, []);
 
+  // Preload wallpaper image
+  const preloadWallpaper = useCallback((wallpaperPath: string) => {
+    if (!wallpaperPath) return;
+
+    const img = new Image();
+    img.onload = () => {
+      setWallpaperLoaded(true);
+      console.log('Wallpaper loaded successfully:', wallpaperPath);
+    };
+    img.onerror = () => {
+      console.error('Failed to load wallpaper:', wallpaperPath);
+      setWallpaperLoaded(false);
+    };
+    img.src = wallpaperPath;
+  }, []);
+
   // Handle wallpaper change
   const handleWallpaperChange = useCallback((wallpaperPath: string) => {
+    setWallpaperLoaded(false);
     setCurrentWallpaper(wallpaperPath);
     setShowWallpaperSelector(false);
+    preloadWallpaper(wallpaperPath);
     // Save to sessionStorage
     if (typeof window !== 'undefined') {
       sessionStorage.setItem('macos-current-wallpaper', wallpaperPath);
     }
-  }, []);
+  }, [preloadWallpaper]);
 
   // Load saved wallpaper on mount
   useEffect(() => {
@@ -277,9 +304,15 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
       const savedWallpaper = sessionStorage.getItem('macos-current-wallpaper');
       if (savedWallpaper) {
         setCurrentWallpaper(savedWallpaper);
+        preloadWallpaper(savedWallpaper);
+      } else {
+        // Set default wallpaper if no saved wallpaper
+        const defaultWallpaperPath = getRuntimeAssetPath('/assets/macOS-wallpaper/wallpaperflare.com_wallpaper (1).jpg');
+        setCurrentWallpaper(defaultWallpaperPath);
+        preloadWallpaper(defaultWallpaperPath);
       }
     }
-  }, []);
+  }, [preloadWallpaper]);
 
   const openFolder = useCallback((folder: typeof folders[0]) => {
     const existingWindow = openWindows.find(w => w.id === folder.id);
@@ -493,13 +526,23 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
     <div className={cn('relative w-full h-full overflow-hidden', className)}>
       {/* Desktop Background */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-500"
+        className={cn(
+          "absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-500",
+          !wallpaperLoaded && "bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900"
+        )}
         style={{
-          backgroundImage: `url('${currentWallpaper}')`,
+          backgroundImage: wallpaperLoaded && currentWallpaper ? `url('${currentWallpaper}')` : 'none',
         }}
       >
         {/* Subtle overlay for better icon visibility */}
         <div className="absolute inset-0 bg-black/10" />
+
+        {/* Loading indicator */}
+        {!wallpaperLoaded && currentWallpaper && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-white/70 text-sm">Loading wallpaper...</div>
+          </div>
+        )}
       </div>
 
       {/* Desktop Icons */}
