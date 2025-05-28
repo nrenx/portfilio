@@ -6,6 +6,7 @@ import { ArrowRight, Code, Github, Linkedin, Twitter } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ScrollIndicator } from '@/components/interactive/scroll-indicator';
 import { SocialIcons } from '@/components/common/social-icons';
+import { FILE_PATHS } from '@/lib/constants';
 
 interface HeroSectionProps {
   className?: string;
@@ -86,7 +87,7 @@ export function HeroSection({ className }: HeroSectionProps) {
                 <div
                   className="background-image absolute top-0 left-0 w-full h-full object-cover z-[1] transition-opacity duration-500 ease-in-out group-hover:opacity-0"
                   style={{
-                    backgroundImage: `url('/assets/images/Finding joy in the simplicity of the sea ............beach bridge ocean smile sunny monument collage sunset sunrise travelphotography travel.jpg')`,
+                    backgroundImage: `url('${FILE_PATHS.images.profile}')`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
@@ -97,7 +98,7 @@ export function HeroSection({ className }: HeroSectionProps) {
                 <div
                   className="second-image absolute top-0 left-0 w-full h-full object-cover z-[2] opacity-0 transition-opacity duration-500 ease-in-out group-hover:opacity-100"
                   style={{
-                    backgroundImage: `url('/assets/images/Finding paradise wherever the waves take me. . . . . . . . . . . . . . . .beachbound beachlife beach beachdreaming ocean paradise wavesfordays explore rainyday shorelineadventures seasideescape beach.jpg')`,
+                    backgroundImage: `url('${FILE_PATHS.images.profileHover}')`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',

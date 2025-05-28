@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
   basePath: isProd && isGithubPages ? '/portfilio' : '',
 
   // Set asset prefix for GitHub Pages
-  assetPrefix: isProd && isGithubPages ? '/portfilio/' : '',
+  assetPrefix: isProd && isGithubPages ? '/portfilio' : '',
 
   // Enable experimental features
   experimental: {

@@ -237,22 +237,25 @@ export const SUCCESS_MESSAGES = {
   },
 } as const;
 
-// File Paths
+import { getAssetPath } from './utils';
+
+// File Paths - Using getAssetPath for GitHub Pages compatibility
 export const FILE_PATHS = {
-  resume: '/assets/resume/resume.pdf',
+  resume: getAssetPath('/assets/resume/resume.pdf'),
   images: {
-    profile: '/assets/images/profile.jpg',
-    profileHover: '/assets/images/profile-hover.jpg',
-    ogImage: '/assets/images/og-image.jpg',
-    favicon: '/favicon.ico',
+    profile: getAssetPath('/assets/images/Finding joy in the simplicity of the sea ............beach bridge ocean smile sunny monument collage sunset sunrise travelphotography travel.jpg'),
+    profileHover: getAssetPath('/assets/images/Finding paradise wherever the waves take me. . . . . . . . . . . . . . . .beachbound beachlife beach beachdreaming ocean paradise wavesfordays explore rainyday shorelineadventures seasideescape beach.jpg'),
+    ogImage: getAssetPath('/assets/images/Finding joy in the simplicity of the sea ............beach bridge ocean smile sunny monument collage sunset sunrise travelphotography travel.jpg'),
+    favicon: getAssetPath('/favicon.ico'),
   },
   icons: {
-    logo: '/icons/logo.svg',
-    logoLight: '/icons/logo-light.svg',
-    logoDark: '/icons/logo-dark.svg',
+    logo: getAssetPath('/icons/logo.svg'),
+    logoLight: getAssetPath('/icons/logo-light.svg'),
+    logoDark: getAssetPath('/icons/logo-dark.svg'),
   },
   wallpapers: {
-    macosDesktop: '/assets/macOS-wallpaper/wallpaperflare.com_wallpaper (1).jpg',
+    macosDesktop: getAssetPath('/assets/macOS-wallpaper/wallpaperflare.com_wallpaper (1).jpg'),
+    macosDesktopAlt: getAssetPath('/assets/macOS-wallpaper/wallpaperflare.com_wallpaper.jpg'),
   },
 } as const;
 

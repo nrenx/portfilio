@@ -190,12 +190,12 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
           {
             id: 'wallpaper-1',
             name: 'Default Wallpaper',
-            path: '/assets/macOS-wallpaper/wallpaperflare.com_wallpaper (1).jpg',
+            path: FILE_PATHS.wallpapers.macosDesktop,
           },
           {
             id: 'wallpaper-2',
             name: 'Alternative Wallpaper',
-            path: '/assets/macOS-wallpaper/wallpaperflare.com_wallpaper.jpg',
+            path: FILE_PATHS.wallpapers.macosDesktopAlt,
           },
         ];
         setAvailableWallpapers(wallpapers);
