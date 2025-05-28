@@ -1,4 +1,5 @@
 import { Project } from '@/lib/types';
+import { getAssetPath } from '@/lib/utils';
 
 export const projects: Project[] = [
   {
@@ -17,7 +18,7 @@ export const projects: Project[] = [
     ],
     githubUrl: 'https://github.com/nrenx/Trade-Book-Ledge',
     liveUrl: 'https://nrenx.github.io/Trade-Book-Ledge/',
-    imageUrl: '/assets/images/projects/saas-dashboard.jpg',
+    imageUrl: getAssetPath('/assets/images/projects/saas-dashboard.jpg'),
     category: 'web',
     status: 'completed',
     startDate: '2023-08',
@@ -39,7 +40,7 @@ export const projects: Project[] = [
     ],
     githubUrl: 'https://github.com/nrenx/nbkrist-student-portal',
     liveUrl: 'https://nbkrstudenthub.me/',
-    imageUrl: '/assets/images/projects/fitness-app.jpg',
+    imageUrl: getAssetPath('/assets/images/projects/fitness-app.jpg'),
     category: 'mobile',
     status: 'completed',
     startDate: '2023-05',
@@ -61,7 +62,7 @@ export const projects: Project[] = [
     ],
     githubUrl: 'https://github.com/nrenx/nbkrist-telegram-bot',
     liveUrl: undefined,
-    imageUrl: '/assets/images/projects/automation.jpg',
+    imageUrl: getAssetPath('/assets/images/projects/automation.jpg'),
     category: 'other',
     status: 'completed',
     startDate: '2023-12',
@@ -83,7 +84,7 @@ export const projects: Project[] = [
     ],
     githubUrl: 'https://github.com/nrenx/ai-automation-internship',
     liveUrl: undefined,
-    imageUrl: '/assets/images/projects/chatbot.jpg',
+    imageUrl: getAssetPath('/assets/images/projects/chatbot.jpg'),
     category: 'web',
     status: 'completed',
     startDate: '2024-01',
@@ -105,7 +106,7 @@ export const projects: Project[] = [
     ],
     githubUrl: 'https://github.com/nrenx/designer-shortlist-platform',
     liveUrl: undefined,
-    imageUrl: '/assets/images/projects/ecommerce.jpg',
+    imageUrl: getAssetPath('/assets/images/projects/ecommerce.jpg'),
     category: 'web',
     status: 'completed',
     startDate: '2024-04',
@@ -127,7 +128,7 @@ export const projects: Project[] = [
     ],
     githubUrl: 'https://github.com/nrenx/portfilio.git',
     liveUrl: 'https://nrenx.github.io/portfilio/',
-    imageUrl: '/assets/images/projects/portfolio.jpg',
+    imageUrl: getAssetPath('/assets/images/projects/portfolio.jpg'),
     category: 'web',
     status: 'completed',
     startDate: '2024-03',
