@@ -18,6 +18,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SEO_CONFIG.siteUrl),
   title: SEO_CONFIG.title,
   description: SEO_CONFIG.description,
   keywords: SEO_CONFIG.keywords,
