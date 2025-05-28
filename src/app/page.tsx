@@ -8,7 +8,6 @@ import { ProjectsSection } from '@/components/sections/projects-section';
 import { ExperienceSection } from '@/components/sections/experience-section';
 import { ContactSection } from '@/components/sections/contact-section';
 import { useLanding } from '@/contexts/landing-context';
-import { ImageDebug } from '@/components/debug/image-debug';
 
 export default function Home() {
   const { showLanding, handleLandingComplete } = useLanding();
@@ -35,9 +34,6 @@ export default function Home() {
         {/* Contact Section */}
         <ContactSection />
       </div>
-
-      {/* Debug Component (only in development) */}
-      <ImageDebug />
     </div>
   );
 }
