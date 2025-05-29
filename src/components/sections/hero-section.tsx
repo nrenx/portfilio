@@ -13,7 +13,6 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ className }: HeroSectionProps) {
-  const [imagesLoaded, setImagesLoaded] = useState(false);
   const [profileImagePath, setProfileImagePath] = useState('');
   const [profileHoverImagePath, setProfileHoverImagePath] = useState('');
 
@@ -24,26 +23,6 @@ export function HeroSection({ className }: HeroSectionProps) {
 
     setProfileImagePath(profilePath);
     setProfileHoverImagePath(profileHoverPath);
-
-    // Preload images
-    const img1 = new Image();
-    const img2 = new Image();
-    let loadedCount = 0;
-
-    const handleImageLoad = () => {
-      loadedCount++;
-      if (loadedCount === 2) {
-        setImagesLoaded(true);
-      }
-    };
-
-    img1.onload = handleImageLoad;
-    img2.onload = handleImageLoad;
-    img1.onerror = handleImageLoad; // Still mark as "loaded" even if error
-    img2.onerror = handleImageLoad;
-
-    img1.src = profilePath;
-    img2.src = profileHoverPath;
   }, []);
 
   const handleGetInTouch = () => {
@@ -83,20 +62,7 @@ export function HeroSection({ className }: HeroSectionProps) {
               className="morph-container group relative w-[300px] h-[300px] overflow-hidden bg-cover bg-no-repeat bg-center border-4 border-[#2d2e32]"
                 style={{
                   borderRadius: '60% 40% 30% 70%/60% 30% 70% 40%',
-                  backgroundImage: `url('data:image/svg+xml,${encodeURIComponent(`
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
-                      <defs>
-                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-                          <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
-                        </linearGradient>
-                      </defs>
-                      <rect width="300" height="300" fill="url(#grad1)" />
-                      <circle cx="150" cy="120" r="40" fill="rgba(255,255,255,0.1)" />
-                      <ellipse cx="150" cy="200" rx="60" ry="80" fill="rgba(255,255,255,0.05)" />
-                      <text x="150" y="160" text-anchor="middle" fill="white" font-size="48">👨‍💻</text>
-                    </svg>
-                  `)}')`,
+                  backgroundColor: 'var(--muted)',
                 }}
                 animate={{
                   borderRadius: [
@@ -118,7 +84,7 @@ export function HeroSection({ className }: HeroSectionProps) {
               >
                 {/* Background Image */}
                 <div
-                  className="background-image absolute top-0 left-0 w-full h-full object-cover z-[1] transition-opacity duration-500 ease-in-out group-hover:opacity-0"
+                  className="background-image absolute top-0 left-0 w-full h-full object-cover z-[1] transition-opacity duration-1000 ease-out group-hover:opacity-0"
                   style={{
                     backgroundImage: profileImagePath ? `url('${profileImagePath}')` : 'none',
                     backgroundSize: 'cover',
@@ -129,7 +95,7 @@ export function HeroSection({ className }: HeroSectionProps) {
 
                 {/* Second Image - Shows on hover */}
                 <div
-                  className="second-image absolute top-0 left-0 w-full h-full object-cover z-[2] opacity-0 transition-opacity duration-500 ease-in-out group-hover:opacity-100"
+                  className="second-image absolute top-0 left-0 w-full h-full object-cover z-[2] opacity-0 transition-opacity duration-1000 ease-out group-hover:opacity-100"
                   style={{
                     backgroundImage: profileHoverImagePath ? `url('${profileHoverImagePath}')` : 'none',
                     backgroundSize: 'cover',
@@ -138,12 +104,7 @@ export function HeroSection({ className }: HeroSectionProps) {
                   }}
                 />
 
-                {/* Loading indicator or fallback */}
-                {!imagesLoaded && (
-                  <div className="absolute inset-0 flex items-center justify-center z-[3]">
-                    <div className="text-6xl animate-pulse">👨‍💻</div>
-                  </div>
-                )}
+
             </motion.div>
           </motion.div>
 
