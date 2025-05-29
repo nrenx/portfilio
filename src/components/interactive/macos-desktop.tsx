@@ -2,12 +2,12 @@
 
 import React, { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
-import { Folder, X, Minus, Square } from 'lucide-react';
+import { Folder } from 'lucide-react';
 import { cn, getRuntimeAssetPath } from '@/lib/utils';
 import { MacOSWindow } from './macos-window';
 import { MacOSDock } from './macos-dock';
 import { projects } from '@/data/projects';
-import { FILE_PATHS } from '@/lib/constants';
+import { Project } from '@/lib/types';
 
 interface MacOSDesktopProps {
   className?: string;
@@ -27,8 +27,8 @@ interface OpenWindow {
 interface DesktopFolder {
   id: string;
   name: string;
-  project?: any; // Single project for individual folders
-  projects?: any[]; // Array for special folders like "More Projects"
+  project?: Project; // Single project for individual folders
+  projects?: Project[]; // Array for special folders like "More Projects"
   position: { x: number; y: number };
   isDragging?: boolean;
   type: 'project' | 'special'; // Type to distinguish between project and special folders
@@ -170,7 +170,7 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
       if (savedVersion === LAYOUT_VERSION && saved) {
         try {
           return JSON.parse(saved);
-        } catch (e) {
+        } catch {
           console.warn('Failed to parse saved folder positions');
         }
       } else {
@@ -202,19 +202,13 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
           },
         ];
         setAvailableWallpapers(wallpapers);
-
-        // Set default wallpaper if none is set
-        if (!currentWallpaper) {
-          setCurrentWallpaper(defaultWallpaperPath);
-          preloadWallpaper(defaultWallpaperPath);
-        }
       } catch (error) {
         console.error('Failed to load wallpapers:', error);
       }
     };
 
     loadWallpapers();
-  }, [currentWallpaper, preloadWallpaper]);
+  }, []); // Remove dependencies to prevent infinite loop
 
   // Save folder positions to sessionStorage
   useEffect(() => {
@@ -298,102 +292,32 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
     }
   }, [preloadWallpaper]);
 
-  // Load saved wallpaper on mount
+  // Initialize wallpaper on mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      const defaultWallpaperPath = getRuntimeAssetPath('/assets/macOS-wallpaper/wallpaperflare.com_wallpaper (1).jpg');
       const savedWallpaper = sessionStorage.getItem('macos-current-wallpaper');
-      if (savedWallpaper) {
-        setCurrentWallpaper(savedWallpaper);
-        preloadWallpaper(savedWallpaper);
-      } else {
-        // Set default wallpaper if no saved wallpaper
-        const defaultWallpaperPath = getRuntimeAssetPath('/assets/macOS-wallpaper/wallpaperflare.com_wallpaper (1).jpg');
-        setCurrentWallpaper(defaultWallpaperPath);
-        preloadWallpaper(defaultWallpaperPath);
+
+      const wallpaperToLoad = savedWallpaper || defaultWallpaperPath;
+      setCurrentWallpaper(wallpaperToLoad);
+
+      // Preload wallpaper directly here to avoid dependency issues
+      if (wallpaperToLoad) {
+        const img = new Image();
+        img.onload = () => {
+          setWallpaperLoaded(true);
+          console.log('✅ Wallpaper loaded successfully:', wallpaperToLoad);
+        };
+        img.onerror = () => {
+          console.error('❌ Failed to load wallpaper:', wallpaperToLoad);
+          setWallpaperLoaded(false);
+        };
+        img.src = wallpaperToLoad;
       }
     }
-  }, [preloadWallpaper]);
+  }, []); // Only run once on mount
 
-  const openFolder = useCallback((folder: typeof folders[0]) => {
-    const existingWindow = openWindows.find(w => w.id === folder.id);
-    if (existingWindow) {
-      // Bring to front
-      setOpenWindows(prev =>
-        prev.map(w =>
-          w.id === folder.id
-            ? { ...w, zIndex: nextZIndex, isMinimized: false }
-            : w
-        )
-      );
-      setNextZIndex(prev => prev + 1);
-      return;
-    }
-
-    // Handle individual project folders
-    if (folder.type === 'project' && folder.project) {
-      openProjectWindow(folder.project);
-      return;
-    }
-
-    // Handle special folders (like "More Projects")
-    if (folder.type === 'special' && folder.projects) {
-      // For "More Projects" folder, open GitHub profile
-      if (folder.id === 'more-projects') {
-        window.open('https://github.com/nrenx', '_blank');
-        return;
-      }
-
-      // Default behavior for other special folders
-      const newWindow: OpenWindow = {
-        id: folder.id,
-        title: folder.name,
-        content: (
-          <div className="p-6 h-full overflow-auto">
-            <h3 className="text-lg font-semibold mb-4">{folder.name}</h3>
-            <div className="grid gap-4">
-              {folder.projects.map((project) => (
-                <motion.div
-                  key={project.id}
-                  className="p-4 bg-muted/50 rounded-lg border border-border/50 hover:border-primary/30 transition-colors cursor-pointer"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => openProjectWindow(project)}
-                >
-                  <h4 className="font-medium text-foreground mb-2">{project.title}</h4>
-                  <p className="text-sm text-muted-foreground mb-3">{project.description}</p>
-                  <div className="flex flex-wrap gap-1">
-                    {project.technologies.slice(0, 3).map((tech: string) => (
-                      <span
-                        key={tech}
-                        className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                    {project.technologies.length > 3 && (
-                      <span className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded-md">
-                        +{project.technologies.length - 3} more
-                      </span>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        ),
-        position: { x: 200 + Math.random() * 100, y: 100 + Math.random() * 50 },
-        size: { width: 500, height: 400 },
-        isMinimized: false,
-        isMaximized: false,
-        zIndex: nextZIndex,
-      };
-
-      setOpenWindows(prev => [...prev, newWindow]);
-      setNextZIndex(prev => prev + 1);
-    }
-  }, [openWindows, nextZIndex]);
-
-  const openProjectWindow = useCallback((project: any) => {
+  const openProjectWindow = useCallback((project: Project) => {
     const existingWindow = openWindows.find(w => w.id === project.id);
     if (existingWindow) {
       setOpenWindows(prev =>
@@ -477,6 +401,85 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
     setOpenWindows(prev => [...prev, newWindow]);
     setNextZIndex(prev => prev + 1);
   }, [openWindows, nextZIndex]);
+
+  const openFolder = useCallback((folder: typeof folders[0]) => {
+    const existingWindow = openWindows.find(w => w.id === folder.id);
+    if (existingWindow) {
+      // Bring to front
+      setOpenWindows(prev =>
+        prev.map(w =>
+          w.id === folder.id
+            ? { ...w, zIndex: nextZIndex, isMinimized: false }
+            : w
+        )
+      );
+      setNextZIndex(prev => prev + 1);
+      return;
+    }
+
+    // Handle individual project folders
+    if (folder.type === 'project' && folder.project) {
+      openProjectWindow(folder.project);
+      return;
+    }
+
+    // Handle special folders (like "More Projects")
+    if (folder.type === 'special' && folder.projects) {
+      // For "More Projects" folder, open GitHub profile
+      if (folder.id === 'more-projects') {
+        window.open('https://github.com/nrenx', '_blank');
+        return;
+      }
+
+      // Default behavior for other special folders
+      const newWindow: OpenWindow = {
+        id: folder.id,
+        title: folder.name,
+        content: (
+          <div className="p-6 h-full overflow-auto">
+            <h3 className="text-lg font-semibold mb-4">{folder.name}</h3>
+            <div className="grid gap-4">
+              {folder.projects.map((project) => (
+                <motion.div
+                  key={project.id}
+                  className="p-4 bg-muted/50 rounded-lg border border-border/50 hover:border-primary/30 transition-colors cursor-pointer"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => openProjectWindow(project)}
+                >
+                  <h4 className="font-medium text-foreground mb-2">{project.title}</h4>
+                  <p className="text-sm text-muted-foreground mb-3">{project.description}</p>
+                  <div className="flex flex-wrap gap-1">
+                    {project.technologies.slice(0, 3).map((tech: string) => (
+                      <span
+                        key={tech}
+                        className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                    {project.technologies.length > 3 && (
+                      <span className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded-md">
+                        +{project.technologies.length - 3} more
+                      </span>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        ),
+        position: { x: 200 + Math.random() * 100, y: 100 + Math.random() * 50 },
+        size: { width: 500, height: 400 },
+        isMinimized: false,
+        isMaximized: false,
+        zIndex: nextZIndex,
+      };
+
+      setOpenWindows(prev => [...prev, newWindow]);
+      setNextZIndex(prev => prev + 1);
+    }
+  }, [openWindows, nextZIndex, openProjectWindow]);
 
   const closeWindow = useCallback((windowId: string) => {
     setOpenWindows(prev => prev.filter(w => w.id !== windowId));
