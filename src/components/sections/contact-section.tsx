@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, FileText, Github, Linkedin, Twitter } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn, getRuntimeAssetPath } from '@/lib/utils';
 import { FORM_CONFIG } from '@/lib/constants';
 
 interface ContactSectionProps {
@@ -37,7 +37,7 @@ export function ContactSection({ className }: ContactSectionProps) {
 
   const handleResumeClick = () => {
     // Open the resume in a new window for preview
-    window.open('/assets/resume/resume.pdf', '_blank');
+    window.open(getRuntimeAssetPath('/assets/resume/resume.pdf'), '_blank');
   };
 
   const contactInfo = [
