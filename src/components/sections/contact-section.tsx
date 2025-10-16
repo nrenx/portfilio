@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, FileText, Github, Linkedin, Twitter } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, FileText, Download, Github, Linkedin, Twitter } from 'lucide-react';
 import { cn, getRuntimeAssetPath } from '@/lib/utils';
 import { FORM_CONFIG } from '@/lib/constants';
 
@@ -38,6 +38,16 @@ export function ContactSection({ className }: ContactSectionProps) {
   const handleResumeClick = () => {
     // Open the resume in a new window for preview
     window.open(getRuntimeAssetPath('/assets/resume/resume.pdf'), '_blank');
+  };
+
+  const handleDownloadResume = () => {
+    // Create a temporary anchor element to trigger download
+    const link = document.createElement('a');
+    link.href = getRuntimeAssetPath('/assets/resume/resume.pdf');
+    link.download = 'Bollineni_Narendra_Resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const contactInfo = [
@@ -272,6 +282,21 @@ export function ContactSection({ className }: ContactSectionProps) {
                     <span className="flex items-center justify-center gap-2">
                       <FileText className="w-4 h-4" />
                       View Resume
+                    </span>
+                  </motion.button>
+                </div>
+
+                {/* Download Resume Button */}
+                <div className="mt-3">
+                  <motion.button
+                    onClick={handleDownloadResume}
+                    className="w-full bg-muted/10 border border-primary/20 text-primary rounded-lg font-medium px-6 py-3 transition-all duration-300 hover:shadow-lg hover:bg-primary hover:text-primary-foreground group"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      <Download className="w-4 h-4" />
+                      Download Resume
                     </span>
                   </motion.button>
                 </div>
