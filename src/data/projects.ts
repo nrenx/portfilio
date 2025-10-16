@@ -3,6 +3,44 @@ import { getAssetPath } from '@/lib/utils';
 
 export const projects: Project[] = [
   {
+    id: 'bhagavad-gita-automation',
+    title: 'Bhagavad Gita Multilingual Video Automation',
+    description: 'Automated pipeline for generating multilingual Bhagavad Gita videos',
+    longDescription: 'Deployed an automated pipeline using n8n to generate multilingual Bhagavad Gita videos with Google TTS, Google AI, and FFmpeg. Reduced manual workload by 90%, publishing hundreds of multilingual videos across YouTube, Instagram, and Facebook. Built with AI agents for script generation and seamless content creation.',
+    technologies: ['n8n', 'Google TTS', 'Google AI', 'FFmpeg', 'AI Agents', 'YouTube API', 'Instagram API', 'Facebook API'],
+    features: [
+      'Automated multilingual video generation',
+      'AI-powered script creation and narration',
+      'Google Text-to-Speech integration',
+      'FFmpeg video composition and editing',
+      'Multi-platform publishing (YouTube, Instagram, Facebook)',
+      '90% reduction in manual workload',
+      'Hundreds of videos published automatically',
+      'Support for multiple languages'
+    ],
+    githubUrl: undefined,
+    liveUrl: 'https://www.youtube.com/@Gita_Gyanaam/playlists',
+    imageUrl: getAssetPath('/assets/images/projects/gita-automation.jpg'),
+    category: 'other',
+    status: 'completed',
+    startDate: '2024-06',
+    endDate: '2024-09',
+    socialLinks: [
+      {
+        platform: 'YouTube',
+        url: 'https://www.youtube.com/@Gita_Gyanaam/playlists',
+      },
+      {
+        platform: 'Instagram',
+        url: 'https://www.instagram.com/gita_gyanaam/',
+      },
+      {
+        platform: 'Facebook',
+        url: 'https://www.facebook.com/profile.php?id=61577900636828',
+      },
+    ],
+  },
+  {
     id: 'saas-dashboard',
     title: 'Trade Book Ledge',
     description: 'SaaS business management platform for trade operations',

@@ -61,9 +61,10 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
     const nbkristPortal = projects.find(p => p.id === 'mobile-fitness-app');
     const portfolioWebsite = projects.find(p => p.id === 'portfolio-website');
     const aiAutomationInternship = projects.find(p => p.id === 'ai-automation-internship');
+    const bhagavadGitaAutomation = projects.find(p => p.id === 'bhagavad-gita-automation');
 
     // Get remaining projects for "More Projects" folder
-    const featuredProjectIds = ['saas-dashboard', 'mobile-fitness-app', 'portfolio-website', 'ai-automation-internship'];
+    const featuredProjectIds = ['saas-dashboard', 'mobile-fitness-app', 'portfolio-website', 'ai-automation-internship', 'bhagavad-gita-automation'];
     const remainingProjects = projects.filter(p => !featuredProjectIds.includes(p.id));
 
     if (isMobile) {
@@ -84,30 +85,37 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
           type: 'project' as const,
         },
         {
+          id: 'bhagavad-gita-automation',
+          name: 'Bhagavad Gita Automation',
+          project: bhagavadGitaAutomation,
+          position: { x: startX, y: baseY + 240 },
+          type: 'project' as const,
+        },
+        {
           id: 'ai-automation-internship',
           name: 'AI Automation Internship',
           project: aiAutomationInternship,
-          position: { x: startX, y: baseY + 240 },
+          position: { x: startX, y: baseY + 360 },
           type: 'project' as const,
         },
         {
           id: 'portfolio-website',
           name: 'Interactive Portfolio Website',
           project: portfolioWebsite,
-          position: { x: startX, y: baseY + 360 },
+          position: { x: startX, y: baseY + 480 },
           type: 'project' as const,
         },
         {
           id: 'more-projects',
           name: 'More Projects',
           projects: remainingProjects,
-          position: { x: startX, y: baseY + 480 },
+          position: { x: startX, y: baseY + 600 },
           type: 'special' as const,
         },
       ];
     }
 
-    // Desktop 2x2+1 grid layout
+    // Desktop 3x2 grid layout
     const rowSpacing = 140; // Vertical spacing between rows
     const row1Y = baseY; // First row Y position
     const row2Y = baseY + rowSpacing; // Second row Y position
@@ -127,32 +135,39 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
       },
       {
         id: 'nbkrist-portal',
-        name: 'NBKRIST Student Portal',
+        name: 'NBKRIST Portal',
         project: nbkristPortal,
         position: { x: startX + spacing, y: row1Y },
         type: 'project' as const,
       },
-      // Row 2: AI Weather Reporter, Portfolio Website
+      // Row 2: Bhagavad Gita Automation, AI Weather Reporter
       {
-        id: 'ai-automation-internship',
-        name: 'AI Weather Reporter',
-        project: aiAutomationInternship,
+        id: 'bhagavad-gita-automation',
+        name: 'Bhagavad Gita Automation',
+        project: bhagavadGitaAutomation,
         position: { x: startX, y: row2Y },
         type: 'project' as const,
       },
       {
-        id: 'portfolio-website',
-        name: 'Interactive Portfolio Website',
-        project: portfolioWebsite,
+        id: 'ai-automation-internship',
+        name: 'AI Weather Reporter',
+        project: aiAutomationInternship,
         position: { x: startX + spacing, y: row2Y },
         type: 'project' as const,
       },
-      // Row 3: More Projects (centered)
+      // Row 3: Portfolio Website, More Projects
+      {
+        id: 'portfolio-website',
+        name: 'Portfolio Website',
+        project: portfolioWebsite,
+        position: { x: startX, y: row3Y },
+        type: 'project' as const,
+      },
       {
         id: 'more-projects',
         name: 'More Projects',
         projects: remainingProjects,
-        position: { x: centerX, y: row3Y },
+        position: { x: startX + spacing, y: row3Y },
         type: 'special' as const,
       },
     ];
@@ -160,7 +175,7 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
 
   const [folders, setFolders] = useState<DesktopFolder[]>(() => {
     // Check for layout version to reset positions when layout changes
-    const LAYOUT_VERSION = '2x2+1-grid'; // Update this when layout changes
+    const LAYOUT_VERSION = '3x2-grid-with-gita'; // Update this when layout changes
 
     if (typeof window !== 'undefined') {
       const savedVersion = sessionStorage.getItem('macos-layout-version');
@@ -367,7 +382,7 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
             </ul>
           </div>
 
-          <div className="flex gap-3 pt-4 border-t border-border/50">
+          <div className="flex flex-wrap gap-3 pt-4 border-t border-border/50">
             {project.githubUrl && (
               <a
                 href={project.githubUrl}
@@ -385,9 +400,20 @@ export function MacOSDesktop({ className }: MacOSDesktopProps) {
                 rel="noopener noreferrer"
                 className="px-4 py-2 border border-border text-foreground rounded-lg text-sm font-medium hover:bg-muted/50 transition-colors"
               >
-                Live Demo
+                {project.socialLinks ? 'Visit Channel' : 'Live Demo'}
               </a>
             )}
+            {project.socialLinks && project.socialLinks.map((social) => (
+              <a
+                key={social.platform}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 border border-border text-foreground rounded-lg text-sm font-medium hover:bg-muted/50 transition-colors"
+              >
+                {social.platform}
+              </a>
+            ))}
           </div>
         </div>
       ),

@@ -33,6 +33,10 @@ export interface Project {
   status: ProjectStatus;
   startDate: string;
   endDate?: string;
+  socialLinks?: Array<{
+    platform: string;
+    url: string;
+  }>;
 }
 
 export type ProjectCategory = 'web' | 'mobile' | 'desktop' | 'api' | 'other';
